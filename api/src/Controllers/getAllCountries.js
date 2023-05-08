@@ -1,5 +1,6 @@
 const axios = require("axios")
 const {Country} = require("../db")
+const findAllCountries = require("../Helpers/findAllCountries")
 
 const getAllCountries = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ const getAllCountries = async (req, res) => {
       
       await Country.bulkCreate(countriesInstances);
       
-      const results = await Country.findAll();
+      const results = await findAllCountries();
       
       return res.status(200).json(results);
     } catch (error) {

@@ -1,19 +1,17 @@
 const { Activity } = require("../db");
+const findAllActivities = require('../Helpers/findAllActivities')
+const destroyActivity = require('../Helpers/destroyActivity')
 
 const deleteActivity = async (req, res) => {
   const { idActivity } = req.params;
-  console.log("Estoy acá");
+  
   try {
-    await Activity.destroy({
-      where: {
-        id: idActivity
-      },
-    });
+    await destroyActivity(idActivity)
+    const results = await findAllActivities();
 
-    const results = await Activity.findAll();
     return res.status(200).json(results);
   } catch (error) {
-    return res.status(404).json({ message: error.message });
+    return res.status(404).json({ error: error.message });
   }
 };
 

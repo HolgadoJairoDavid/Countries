@@ -1,18 +1,11 @@
 const { Country } = require("../db");
-const { Activity } = require("../db");
+const findAllActivitiesInCountry_Activities = require('../Helpers/findAllActivitiesInCountry_Activities')
 
 const getCountryById = async (req, res) => {
   try {
     const { idPais } = req.params;
     const country = await Country.findByPk(idPais);
-    const activities = await Activity.findAll({
-      include: [
-        {
-          model: Country,
-          where: { id: idPais },
-        },
-      ],
-    });
+    const activities = await findAllActivitiesInCountry_Activities(idPais);
 
     const activitiesData = activities.map((activity) => {
       return {

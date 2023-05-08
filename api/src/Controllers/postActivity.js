@@ -1,5 +1,6 @@
 const {Activity} = require("../db");
 const {Country} = require("../db")
+const findAllActivities = require('../Helpers/findAllActivities')
 
 const postActivity = async (req, res) => {
   const { name, difficulty, duration, season, countryName } = req.body;
@@ -24,17 +25,17 @@ const postActivity = async (req, res) => {
             name: countryName
         }})
 
-        await activity.addCountry(countryFound)
+        await activity.addCountry(countryFound) // addModel
       }
 
 
-      const results = await Activity.findAll()
+      const results = await findAllActivities()
       return boolean
         ? res.status(201).json(results)
-        : res.status(400).json({ message: "Esa actividad ya existe" });
+        : res.status(400).json({ error: "Esa actividad ya existe" });
     }
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
