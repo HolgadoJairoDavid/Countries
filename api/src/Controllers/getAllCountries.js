@@ -4,7 +4,9 @@ const findAllCountries = require("../Helpers/findAllCountries")
 
 const getAllCountries = async (req, res) => {
     try {
-      const response = await axios.get("https://restcountries.com/v3/all");
+      const count = await Country.count();
+      if(count === 0){
+        const response = await axios.get("https://restcountries.com/v3/all");
       const countries = response.data;
       
       const countriesInstances = countries.map(country => {
@@ -25,6 +27,12 @@ const getAllCountries = async (req, res) => {
       const results = await findAllCountries();
       
       return res.status(200).json(results);
+      } else {
+        
+      const results = await findAllCountries();
+      
+      return res.status(200).json(results);
+      }
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

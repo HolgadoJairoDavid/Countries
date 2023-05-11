@@ -1,0 +1,6 @@
+.Container {
+  display: grid;
+  grid-template-columns: repeat(5, 18%);
+  width: 100vw;
+  background: #ffb4b4;
+}

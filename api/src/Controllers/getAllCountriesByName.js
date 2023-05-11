@@ -6,7 +6,7 @@ const getAllCountriesByName = async (req, res)=> {
         const {name} = req.query
         
         const countries = await findAllCountriesByName(name)
-
+        
         if(countries && countries.length > 0){
             return res.status(200).json(countries)
         } else {
