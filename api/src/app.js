@@ -9,6 +9,8 @@ const deleteActivity = require("./routes/deleteActivity.js");
 const postActivity = require("./routes/postActivity.js");
 const getAllActivities = require("./routes/getAllActivities.js");
 const putActivity = require("./routes/putActivity.js");
+const login = require("./routes/login.js");
+const register = require("./routes/register.js");
 
 require("./db.js");
 
@@ -39,6 +41,8 @@ server.use(deleteActivity);
 server.use(postActivity);
 server.use(getAllActivities);
 server.use(putActivity);
+server.use(login)
+server.use(register)
 
 // Error catching endware.
 server.use((err, req, res, next) => {

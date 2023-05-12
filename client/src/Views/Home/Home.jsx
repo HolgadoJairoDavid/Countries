@@ -2,18 +2,17 @@ import { useState } from "react";
 import Countries from "../../Components/Countries/Countries";
 import { useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
-import SearchResults from "../../Components/SearchResults/SearchResults";
+// import SearchResults from "../../Components/SearchResults/SearchResults";
 
 const Home = () => {
   const COUNTRIES_PER_PAGE = 10;
   const allCountries = useSelector((state) => state.allCountries);
-  const firstTenCountries = allCountries.slice(0, COUNTRIES_PER_PAGE)
-  console.log(firstTenCountries);
-  const [currentCountries, setCurrentCountries] = useState([...firstTenCountries]);
-  const [currentPage, setCurrentPage] = useState(-1);
+  const firstTenCountries = allCountries.slice(0, COUNTRIES_PER_PAGE);
 
-  console.log(currentCountries);
-  console.log(currentPage);
+  const [currentCountries, setCurrentCountries] = useState([
+    ...firstTenCountries,
+  ]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const nextHandler = () => {
     const totalElements = allCountries.length;
@@ -49,7 +48,6 @@ const Home = () => {
         prevHandler={prevHandler}
         nextHandler={nextHandler}
       />
-      
     </div>
   );
 };

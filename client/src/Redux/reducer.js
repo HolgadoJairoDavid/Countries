@@ -6,11 +6,13 @@ import {
   DELETEACTIVITY,
   POSTACTIVITY,
   PUTACTIVITY,
+  SET_ACCESS
   // here add POSTIMAGE
 } from "./types";
 
 // FOR DETAIL COMPONENT WE USE A LOCAL STATE
 const initialStore = {
+  access: false,
   allCountries: [],
   filteredCountries: [],
   allActivities: [],
@@ -57,6 +59,11 @@ const reducer = (state = initialStore, { type, payload }) => {
         ...state,
         putActivity: payload,
       };
+    case SET_ACCESS: 
+    return {
+      ...state,
+      access: payload
+    }
 
     // case ORDER:
     //     return {

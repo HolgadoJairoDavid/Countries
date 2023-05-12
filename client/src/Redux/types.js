@@ -7,6 +7,7 @@ export const GETALLACTIVITIES = "GETALLACTIVITIES";
 export const DELETEACTIVITY = "DELETEACTIVITY";
 export const POSTACTIVITY = "POSTACTIVITY";
 export const PUTACTIVITY = "PUTACTIVITY";
+export const SET_ACCESS = "SET_ACCESS"
 
 // export const POSTIMAGE = 'POSTIMAGE' ----- when we fulfill what the readme file requests, we will add this functionality to it
 // FILTEEEEERRRRR

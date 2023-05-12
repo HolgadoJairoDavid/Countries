@@ -6,6 +6,7 @@ import {
   DELETEACTIVITY,
   POSTACTIVITY,
   PUTACTIVITY,
+  SET_ACCESS
   // here add POSTIMAGE
 } from "./types";
 import axios from "axios";
@@ -113,3 +114,10 @@ export const putActivity = (id, activityUpdates) => {
     }
   };
 };
+
+export const setAccess = (payload) => {
+  return {
+    type: SET_ACCESS,
+    payload
+  }
+}

@@ -28,7 +28,7 @@ const Detail = (props) => {
 
         <div>
             <h1>ACTIVIDADES: </h1>
-            {countryById.activitiesData.map(activity => {
+            {countryById.activitiesData && countryById.activitiesData.map(activity => {
               return (
                 <div><h1>{activity.name}</h1>
                 <p>{activity.difficulty}</p>

@@ -1,36 +1,73 @@
 import "./App.css";
-import Home from "./Views/Home/Home";
+import {
+  Home,
+  Detail,
+  SearchBar,
+  SearchResults,
+  CreateActivity,
+  Landing,
+  Login,
+  Register
+} from "./Views/index";
+import axios from "axios";
 import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountries } from "./Redux/actions";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Detail from "./Views/Detail/Detail";
-import SearchBar from "./Components/SearchBar/SearchBar"
-import SearchResults from "./Components/SearchResults/SearchResults";
-import CreateActivity from "./Views/CreateActivity/CreateActivity";
+import { getAllCountries, setAccess } from "./Redux/actions";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
+  
+  const navigate = useNavigate();
+  let { pathname } = useLocation();
   const allCountries = useSelector((state) => state.allCountries);
+  const access = useSelector((state) => state.access);
   const dispatch = useDispatch();
 
+  const login = async (state) => {
+    const { email, password } = state;
+    const URL = `http://localhost:3001/login?email=${email}&password=${password}`;
+    try {
+      const response = await axios.get(URL);
+      const { access } = response.data;
+
+      dispatch(setAccess(access));
+
+      access && navigate("/home");
+
+      !access && window.alert("Los datos ingresados son incorrectos");
+    } catch (error) {
+      window.alert("No estás logueado");
+    }
+  };
+
   useEffect(() => {
+    !access &&
+      (pathname === "/home" ||
+        pathname === "/create" ||
+        pathname === "/home/search") &&
+      navigate("/login");
+
     if (allCountries.length === 0) {
       dispatch(getAllCountries());
     }
-  }, [dispatch, allCountries]);
+
+  }, [dispatch, allCountries, access, navigate, pathname]);
 
   return (
     <div className="App">
-      <h1>Henry Countries</h1>
-      <SearchBar />
-      <CreateActivity/>
-      <Router>
-        <Switch>
-          <Route exact path="/home" component={Home}/>
-          <Route path="/detail/:id" component={Detail} />
-          <Route path="/home/search" component={SearchResults}/>
-        </Switch>
-      </Router>
+      {pathname === "/" && <Landing />}
+
+      {(pathname === "/home" || pathname === "/home/search") && <SearchBar />}
+
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/create" element={<CreateActivity />} />
+        <Route path="/login" element={<Login login={login} />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/home/search" element={<SearchResults />} />
+      </Routes>
     </div>
   );
 }
