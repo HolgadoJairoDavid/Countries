@@ -2,16 +2,17 @@ import { useState } from "react";
 import Countries from "../../Components/Countries/Countries";
 import { useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
+import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
 // import SearchResults from "../../Components/SearchResults/SearchResults";
 
 const Home = () => {
   const COUNTRIES_PER_PAGE = 10;
   const allCountries = useSelector((state) => state.allCountries);
-  const firstTenCountries = allCountries.slice(0, COUNTRIES_PER_PAGE);
 
   const [currentCountries, setCurrentCountries] = useState([
-    ...firstTenCountries,
+    ...allCountries.slice(0, COUNTRIES_PER_PAGE),
   ]);
+
   const [currentPage, setCurrentPage] = useState(0);
 
   const nextHandler = () => {
@@ -42,6 +43,7 @@ const Home = () => {
 
   return (
     <div>
+      <FilterAndOrderBar prevHandler={prevHandler} nextHandler={nextHandler} />
       <Countries allCountries={currentCountries} />
       <Buttons
         currentPage={currentPage}

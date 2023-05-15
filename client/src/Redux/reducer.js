@@ -6,7 +6,10 @@ import {
   DELETEACTIVITY,
   POSTACTIVITY,
   PUTACTIVITY,
-  SET_ACCESS
+  SET_ACCESS,
+  ORDER_COUNTRIES,
+  FILTER_COUNTRIES_BY_CONTINENT,
+  FILTER_COUNTRIES_BY_SUBREGION
   // here add POSTIMAGE
 } from "./types";
 
@@ -14,7 +17,6 @@ import {
 const initialStore = {
   access: false,
   allCountries: [],
-  filteredCountries: [],
   allActivities: [],
   countriesByName: [],
   countryById: {},
@@ -64,12 +66,39 @@ const reducer = (state = initialStore, { type, payload }) => {
       ...state,
       access: payload
     }
+// ORDER (SORT)
+    case ORDER_COUNTRIES:
+      let orderCountries;
+      if(payload === "AlphabeticallyA"){
+        orderCountries = state.allCountries.sort((a, b) => (a.name > b.name ? 1 : -1))
+      } else if (payload === "AlphabeticallyD"){
+        orderCountries = state.allCountries.sort((a, b) => (a.name < b.name ? 1 : -1))
+      } else if(payload === "PopulationA") {
+        orderCountries = state.allCountries.sort((a, b) => (a.population > b.population ? 1 : -1))
+      } else if(payload === "PopulationD") {
+        orderCountries = state.allCountries.sort((a, b) => (a.population < b.population ? 1 : -1))
+      } else if (payload === "AreaA") {
+        orderCountries = state.allCountries.sort((a, b) => (a.area > b.area ? 1 : -1))
+      } else if(payload === "AreaD") {
+        orderCountries = state.allCountries.sort((a, b) => (a.area < b.area ? 1 : -1))
+      }
+    return {
+      ...state,
+      allCountries: [...orderCountries]
+    }
 
-    // case ORDER:
-    //     return {
-    //         ...state,
-    //         allCountries: [...payload]
-    //     }
+
+    case FILTER_COUNTRIES_BY_CONTINENT: 
+    return {
+      ...state,
+      allCountries: state.allCountries.filter(country => country.continent === payload)
+    }
+
+    case FILTER_COUNTRIES_BY_SUBREGION: 
+    return {
+      ...state,
+      allCountries: state.allCountries.filter(country => country.subregion=== payload)
+    }
 
     default:
       return state;

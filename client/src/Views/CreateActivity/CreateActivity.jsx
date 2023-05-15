@@ -1,46 +1,67 @@
 import { postActivity } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
-// import Country from "../../Components/Country/Country"
+import style from "./createActivity.module.css";
 import validate from "./validate";
 
 const CreateActivity = (props) => {
-  let allCountries = useSelector((state) => state.allCountries)
+  let allCountries = useSelector((state) => state.allCountries);
   const [state, setState] = React.useState({
     name: "",
     difficulty: "",
     duration: "",
     season: "",
     countryName: "",
+    // image: "",
   });
 
-  const [error, setError] = React.useState({})
+  const [error, setError] = React.useState({});
 
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
-    setError(validate({...state, [event.target.name]: event.target.value}))
+    setError(validate({ ...state, [event.target.name]: event.target.value }));
   };
+
+  // const handleFile = (event) => {
+  //   setState({...state, image: [event.target.files[0]]})
+  // }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(!Object.keys(error).length){
-        dispatch(postActivity(state))
-       }
+    if (!Object.keys(error).length) {
+      dispatch(postActivity(state));
+      setState({
+        name: "",
+        difficulty: "",
+        duration: "",
+        season: "",
+        countryName: "",
+        image: "",
+      });
+    }
   };
 
-  console.log(allCountries.slice(0, 5));
-
+  // console.log(state.image[0].name);
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={style.Container}>
+      <form onSubmit={handleSubmit} className={style.Form}>
         <label htmlFor="name">Name: </label>
-        <input type="text" name="name" onChange={handleChange} />
+        <input
+          value={state.name}
+          type="text"
+          name="name"
+          onChange={handleChange}
+        />
         {error.name && <p>{error.name}</p>}
 
         <label htmlFor="difficulty">Difficulty: </label>
-        <select name="difficulty" onChange={handleChange}>
+        <select
+          value={state.difficulty}
+          name="difficulty"
+          onChange={handleChange}
+        >
           <option value={1}>1</option>
           <option value={2}>2</option>
           <option value={3}>3</option>
@@ -50,11 +71,16 @@ const CreateActivity = (props) => {
         {error.difficulty && <p>{error.difficulty}</p>}
 
         <label htmlFor="duration">Duration: </label>
-        <input type="number" name="duration" onChange={handleChange} />
+        <input
+          value={state.duration}
+          type="number"
+          name="duration"
+          onChange={handleChange}
+        />
         {error.duration && <p>{error.duration}</p>}
 
         <label htmlFor="season">Season: </label>
-        <select name="season" onChange={handleChange}>
+        <select value={state.season} name="season" onChange={handleChange}>
           <option value="Summer">Summer</option>
           <option value="Autumn">Autumn</option>
           <option value="Winter">Winter</option>
@@ -63,7 +89,11 @@ const CreateActivity = (props) => {
         {error.season && <p>{error.season}</p>}
 
         <label htmlFor="countryName">Country: </label>
-        <select name="countryName" onChange={handleChange}>
+        <select
+          value={state.countryName}
+          name="countryName"
+          onChange={handleChange}
+        >
           {allCountries &&
             allCountries.map((country) => {
               return (
@@ -74,6 +104,14 @@ const CreateActivity = (props) => {
             })}
         </select>
         {error.countryName && <p>{error.countryName}</p>}
+{/* 
+        <label htmlFor="image">Image: </label>
+        <input
+          type="file"
+          name="image"
+          onChange={handleFile}
+        /> */}
+        {/* {error.image && <p>{error.image}</p>} */}
 
         <button type="submit">Submit</button>
       </form>

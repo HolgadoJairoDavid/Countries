@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const multer = require('multer');
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const getAllCountries = require("./routes/getAllCountries.js");
@@ -33,6 +34,7 @@ server.use((req, res, next) => {
 });
 
 // We add the middleware of our application
+
 
 server.use(getAllCountries);
 server.use(getAllCountriesByName);

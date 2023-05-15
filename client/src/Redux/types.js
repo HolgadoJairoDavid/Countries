@@ -7,7 +7,9 @@ export const GETALLACTIVITIES = "GETALLACTIVITIES";
 export const DELETEACTIVITY = "DELETEACTIVITY";
 export const POSTACTIVITY = "POSTACTIVITY";
 export const PUTACTIVITY = "PUTACTIVITY";
-export const SET_ACCESS = "SET_ACCESS"
+export const SET_ACCESS = "SET_ACCESS";
+export const FILTER_COUNTRIES_BY_CONTINENT = "FILTER_COUNTRIES_BY_CONTINENT";
+export const ORDER_COUNTRIES = "ORDER_COUNTRIES";
+export const FILTER_COUNTRIES_BY_SUBREGION = "FILTER_COUNTRIES_BY_SUBREGION"
 
 // export const POSTIMAGE = 'POSTIMAGE' ----- when we fulfill what the readme file requests, we will add this functionality to it
-// FILTEEEEERRRRR

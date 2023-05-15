@@ -6,7 +6,10 @@ import {
   DELETEACTIVITY,
   POSTACTIVITY,
   PUTACTIVITY,
-  SET_ACCESS
+  SET_ACCESS,
+  FILTER_COUNTRIES_BY_CONTINENT,
+  ORDER_COUNTRIES,
+  FILTER_COUNTRIES_BY_SUBREGION,
   // here add POSTIMAGE
 } from "./types";
 import axios from "axios";
@@ -87,6 +90,13 @@ export const deleteActivity = (id) => {
 export const postActivity = (activity) => {
   return async (dispatch) => {
     try {
+      // const formData = new FormData();
+      // formData.append("name", name);
+      // formData.append("image", image);
+      // formData.append("difficulty", difficulty);
+      // formData.append("duration", duration);
+      // formData.append("season", season);
+      // formData.append("countryName", countryName);
       const { data } = await axios.post(endpointActivities, activity);
       return dispatch({
         type: POSTACTIVITY,
@@ -118,6 +128,27 @@ export const putActivity = (id, activityUpdates) => {
 export const setAccess = (payload) => {
   return {
     type: SET_ACCESS,
-    payload
-  }
-}
+    payload,
+  };
+};
+
+export const filterCountriesByContinent = (payload) => {
+  return {
+    type: FILTER_COUNTRIES_BY_CONTINENT,
+    payload,
+  };
+};
+
+export const filterCountriesBySubregion = (payload) => {
+  return {
+    type: FILTER_COUNTRIES_BY_SUBREGION,
+    payload,
+  };
+};
+
+export const orderCountries = (payload) => {
+  return {
+    type: ORDER_COUNTRIES,
+    payload,
+  };
+};

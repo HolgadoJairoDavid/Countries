@@ -7,7 +7,7 @@ import {
   CreateActivity,
   Landing,
   Login,
-  Register
+  Register,
 } from "./Views/index";
 import axios from "axios";
 import { useEffect } from "react";
@@ -15,9 +15,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCountries, setAccess } from "./Redux/actions";
 import { Routes, Route } from "react-router-dom";
+import NavBar from "./Components/NavBar/NavBar";
 
 function App() {
-  
   const navigate = useNavigate();
   let { pathname } = useLocation();
   const allCountries = useSelector((state) => state.allCountries);
@@ -41,6 +41,11 @@ function App() {
     }
   };
 
+  const logOut = () => {
+    navigate("/login");
+    dispatch(setAccess(false));
+  };
+
   useEffect(() => {
     !access &&
       (pathname === "/home" ||
@@ -51,11 +56,12 @@ function App() {
     if (allCountries.length === 0) {
       dispatch(getAllCountries());
     }
-
   }, [dispatch, allCountries, access, navigate, pathname]);
 
   return (
     <div className="App">
+      {(pathname === '/home' || pathname === '/home/search' || pathname === '/create') && <NavBar logOut={logOut} />}
+
       {pathname === "/" && <Landing />}
 
       {(pathname === "/home" || pathname === "/home/search") && <SearchBar />}
@@ -73,36 +79,3 @@ function App() {
 }
 
 export default App;
-
-// import React, { useState } from 'react';
-
-// function FileUpload() {
-//   const [selectedFile, setSelectedFile] = useState(null);
-
-//   const handleFileChange = (event) => {
-//     setSelectedFile(event.target.files[0]);
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const formData = new FormData();
-//     formData.append('file', selectedFile);
-
-//     fetch('/api/upload', {
-//       method: 'POST',
-//       body: formData
-//     })
-//       .then(response => response.json())
-//       .then(data => console.log(data))
-//       .catch(error => console.error(error));
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input type="file" onChange={handleFileChange} />
-//       <button type="submit">Upload</button>
-//     </form>
-//   );
-// }
-
-// export default FileUpload;

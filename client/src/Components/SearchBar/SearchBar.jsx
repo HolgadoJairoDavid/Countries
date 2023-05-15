@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { getCountriesByName } from "../../Redux/actions";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = (props) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
   const handleSearch = () => {
     dispatch(getCountriesByName(name));
     setName("");
+    navigate('/home/search')
   };
 
   const handleChange = (event) => {
@@ -19,6 +22,7 @@ const SearchBar = (props) => {
     if (event.key === "Enter") {
       dispatch(getCountriesByName(name));
       setName("");
+      navigate('/home/search')
     }
   };
 

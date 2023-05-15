@@ -34,6 +34,7 @@ const Detail = (props) => {
                 <p>{activity.difficulty}</p>
                 <p>{activity.duration}</p>
                 <p>{activity.season}</p>
+                <img src={activity.image} alt={activity.name} />
                 </div>
 
               )

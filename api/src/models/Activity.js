@@ -6,6 +6,13 @@ module.exports = (sequelize) => {
   sequelize.define(
     "activity",
     {
+      // image: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: {
+      //     is: /\.(jpg|jpeg|png)$/i,
+      //   },
+      // },
       name: {
         type: DataTypes.STRING,
         allowNull: false,

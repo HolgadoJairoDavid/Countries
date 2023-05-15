@@ -19,9 +19,12 @@ const validate = (state) => {
     if(state.season === ''){
         errors.season= 'Select a season'
     }
-    if(state.Name === ''){
+    if(state.countryName === ''){
         errors.countryName = 'Select a country'
     }
+    // if(!state.image){
+    //     errors.image = 'Upload a image'
+    // }
     return errors;
 }
 
