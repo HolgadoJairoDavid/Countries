@@ -5,7 +5,7 @@ import Buttons from "../../Components/Buttons/Buttons";
 import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
 // import SearchResults from "../../Components/SearchResults/SearchResults";
 
-const Home = () => {
+const Home = (props) => {
   const COUNTRIES_PER_PAGE = 10;
   const allCountries = useSelector((state) => state.allCountries);
 

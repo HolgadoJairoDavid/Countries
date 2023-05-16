@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getCountryById } from "../../Redux/actions";
+// import image from '../../hola.png'
 
 const Detail = (props) => {
   const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const Detail = (props) => {
   useEffect(() => {
     dispatch(getCountryById(id));
   }, [dispatch, id]);
+
+  console.log(countryById);
 
   return (<div>
     <div>
@@ -34,7 +37,10 @@ const Detail = (props) => {
                 <p>{activity.difficulty}</p>
                 <p>{activity.duration}</p>
                 <p>{activity.season}</p>
-                <img src={activity.image} alt={activity.name} />
+                
+                {/* <img src={`http://localhost:3000/${activity.image.slice(7, activity.image.length)}`} alt={activity.name} />
+                {console.log(activity.image.slice(7, activity.image.length))} */}
+                <img src={activity.image} alt="" />
                 </div>
 
               )

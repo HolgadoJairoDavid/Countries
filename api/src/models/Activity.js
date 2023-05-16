@@ -6,13 +6,6 @@ module.exports = (sequelize) => {
   sequelize.define(
     "activity",
     {
-      // image: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      //   validate: {
-      //     is: /\.(jpg|jpeg|png)$/i,
-      //   },
-      // },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,6 +30,10 @@ module.exports = (sequelize) => {
       },
       season: {
         type: DataTypes.ENUM("Summer", "Autumn", "Winter", "Spring"),
+        allowNull: false,
+      },
+      image: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },

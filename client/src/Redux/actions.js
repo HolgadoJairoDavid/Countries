@@ -87,17 +87,24 @@ export const deleteActivity = (id) => {
   };
 };
 
-export const postActivity = (activity) => {
+export const postActivity = (
+  { name, difficulty, duration, season, countryName },
+  image
+) => {
   return async (dispatch) => {
     try {
-      // const formData = new FormData();
-      // formData.append("name", name);
-      // formData.append("image", image);
-      // formData.append("difficulty", difficulty);
-      // formData.append("duration", duration);
-      // formData.append("season", season);
-      // formData.append("countryName", countryName);
-      const { data } = await axios.post(endpointActivities, activity);
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("difficulty", difficulty);
+      formData.append("duration", duration);
+      formData.append("season", season);
+      formData.append("countryName", countryName);
+      formData.append("image", image);
+      const { data } = await axios.post(endpointActivities, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return dispatch({
         type: POSTACTIVITY,
         payload: data,

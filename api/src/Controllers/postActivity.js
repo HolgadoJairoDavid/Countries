@@ -4,9 +4,10 @@ const findAllActivities = require("../Helpers/findAllActivities");
 
 const postActivity = async (req, res) => {
   const { name, difficulty, duration, season, countryName } = req.body;
-  // console.log(image[0]);
+  const image = req.file.path;
+
   try {
-    if (!name || !difficulty || !duration || !season || !countryName) {
+    if (!name || !difficulty || !duration || !season || !countryName || !image) {
       throw Error("Faltan datos");
     } else {
       const [activity, boolean] = await Activity.findOrCreate({
@@ -18,7 +19,7 @@ const postActivity = async (req, res) => {
           difficulty,
           duration,
           season,
-          // image: image[0].name,
+          image
         },
       });
 

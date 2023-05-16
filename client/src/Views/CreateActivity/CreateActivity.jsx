@@ -1,6 +1,7 @@
 import { postActivity } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
+import Dropzone from 'react-dropzone';
 import style from "./createActivity.module.css";
 import validate from "./validate";
 
@@ -12,9 +13,8 @@ const CreateActivity = (props) => {
     duration: "",
     season: "",
     countryName: "",
-    // image: "",
   });
-
+  const [image, setImage] = React.useState(null)
   const [error, setError] = React.useState({});
 
   const dispatch = useDispatch();
@@ -24,14 +24,14 @@ const CreateActivity = (props) => {
     setError(validate({ ...state, [event.target.name]: event.target.value }));
   };
 
-  // const handleFile = (event) => {
-  //   setState({...state, image: [event.target.files[0]]})
-  // }
+  const handleDrop = (acceptedFiles) => {
+    setImage(acceptedFiles[0]);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!Object.keys(error).length) {
-      dispatch(postActivity(state));
+      dispatch(postActivity(state, image));
       setState({
         name: "",
         difficulty: "",
@@ -43,7 +43,6 @@ const CreateActivity = (props) => {
     }
   };
 
-  // console.log(state.image[0].name);
   return (
     <div className={style.Container}>
       <form onSubmit={handleSubmit} className={style.Form}>
@@ -104,14 +103,23 @@ const CreateActivity = (props) => {
             })}
         </select>
         {error.countryName && <p>{error.countryName}</p>}
-{/* 
-        <label htmlFor="image">Image: </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleFile}
-        /> */}
-        {/* {error.image && <p>{error.image}</p>} */}
+
+        <Dropzone onDrop={handleDrop}>
+          {({getRootProps, getInputProps}) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>Arrastra una imagen aquí o haz clic para seleccionarla</p>
+            </div>
+          )}
+        </Dropzone>
+
+        {image && (
+          <div>
+            <p>Imagen cargada:</p>
+            <img src={URL.createObjectURL(image)} alt="Imagen cargada" />
+            {console.log(URL.createObjectURL(image))}
+          </div>
+        )}
 
         <button type="submit">Submit</button>
       </form>

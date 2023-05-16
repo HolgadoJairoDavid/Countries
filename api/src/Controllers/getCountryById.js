@@ -5,7 +5,7 @@ const getCountryById = async (req, res) => {
   try {
     const { idPais } = req.params;
     const country = await Country.findByPk(idPais);
-    const activities = await findAllActivitiesInCountry_Activities(idPais);
+    const activities = await findAllActivitiesInCountry_Activities(idPais)
 
     const activitiesData = activities.map((activity) => {
       return {
@@ -14,6 +14,7 @@ const getCountryById = async (req, res) => {
         difficulty: activity.difficulty,
         duration: activity.duration,
         season: activity.season,
+        image: activity.image
       };
     });
 
