@@ -10,7 +10,9 @@ import {
   FILTER_COUNTRIES_BY_CONTINENT,
   ORDER_COUNTRIES,
   FILTER_COUNTRIES_BY_SUBREGION,
-  // here add POSTIMAGE
+  SEE_ALL,
+  SET_TESTER,
+  SET_SEE_ALL
 } from "./types";
 import axios from "axios";
 
@@ -159,3 +161,21 @@ export const orderCountries = (payload) => {
     payload,
   };
 };
+
+export const seeAll = () => {
+  return {
+    type: SEE_ALL,
+  };
+};
+
+export const setTester = () => {
+  return {
+    type: SET_TESTER,
+  };
+};
+
+export const setSeeAll = () => {
+  return {
+    type: SET_SEE_ALL
+  }
+}

@@ -61,6 +61,9 @@ const CreateActivity = (props) => {
           name="difficulty"
           onChange={handleChange}
         >
+          <option selected disabled>
+          Select a difficulty
+        </option>
           <option value={1}>1</option>
           <option value={2}>2</option>
           <option value={3}>3</option>
@@ -80,6 +83,9 @@ const CreateActivity = (props) => {
 
         <label htmlFor="season">Season: </label>
         <select value={state.season} name="season" onChange={handleChange}>
+        <option selected disabled>
+          Select a season
+        </option>
           <option value="Summer">Summer</option>
           <option value="Autumn">Autumn</option>
           <option value="Winter">Winter</option>
@@ -93,6 +99,9 @@ const CreateActivity = (props) => {
           name="countryName"
           onChange={handleChange}
         >
+          <option selected disabled>
+          Select a country
+        </option>
           {allCountries &&
             allCountries.map((country) => {
               return (

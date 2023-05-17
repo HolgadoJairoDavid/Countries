@@ -6,6 +6,7 @@ const router = Router();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public");
+    // cb(null, "../client/src/assets/");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);

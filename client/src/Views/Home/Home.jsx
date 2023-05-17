@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Countries from "../../Components/Countries/Countries";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
 import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
-// import SearchResults from "../../Components/SearchResults/SearchResults";
+import { setTester, seeAll, setSeeAll } from "../../Redux/actions";
 
 const Home = (props) => {
   const COUNTRIES_PER_PAGE = 10;
-  const allCountries = useSelector((state) => state.allCountries);
+  const dispatch = useDispatch();
+  const seeAllGlobal = useSelector((state) => state.seeAll);
+  const tester = useSelector((state) => state.tester);
+  const order = useSelector((state) => state.order);
+  const tenFilteredAndOrderedCountries = useSelector(
+    (state) => state.tenFilteredAndOrderedCountries
+  );
+  const filter = useSelector((state) => state.filter);
+  const allCountries = useSelector((state) => {
+    if (order || filter || tester) {
+      return state.filteredAndOrderedCountries;
+    } else if (!order && !filter && !tester) {
+      return state.filteredAndOrderedCountries;
+    } else {
+      return state.allCountries;
+    }
+  });
 
   const [currentCountries, setCurrentCountries] = useState([
     ...allCountries.slice(0, COUNTRIES_PER_PAGE),
@@ -16,13 +32,14 @@ const Home = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const nextHandler = () => {
-    const totalElements = allCountries.length;
-
+    if (allCountries.length <= 10 && currentPage === 0) return;
+    dispatch(setTester());
+    dispatch(setSeeAll());
     const nextPage = currentPage + 1;
 
     const firstIndex = nextPage * COUNTRIES_PER_PAGE;
 
-    if (firstIndex === totalElements) return;
+    if (nextPage > Math.ceil(allCountries.length / 10) - 1) return;
 
     setCurrentCountries(
       allCountries.slice(firstIndex, firstIndex + COUNTRIES_PER_PAGE)
@@ -30,9 +47,10 @@ const Home = (props) => {
     setCurrentPage(nextPage);
   };
   const prevHandler = () => {
+    if (currentPage === 0) return;
+    dispatch(setTester());
+    dispatch(setSeeAll());
     const prevPage = currentPage - 1;
-
-    if (prevPage < 0) return;
     const firstIndex = prevPage * COUNTRIES_PER_PAGE;
 
     setCurrentCountries(
@@ -40,16 +58,44 @@ const Home = (props) => {
     );
     setCurrentPage(prevPage);
   };
+  const seteador = () => {
+    setCurrentPage(0);
+  };
 
+  const seteador2 = () => {
+    setCurrentCountries(allCountries.slice(0, 10));
+  };
+
+  const handleReset = () => {
+    dispatch(seeAll());
+    seteador();
+    seteador2();
+  };
   return (
     <div>
-      <FilterAndOrderBar prevHandler={prevHandler} nextHandler={nextHandler} />
-      <Countries allCountries={currentCountries} />
-      <Buttons
-        currentPage={currentPage}
-        prevHandler={prevHandler}
-        nextHandler={nextHandler}
-      />
+      {currentCountries ? (
+        <div>
+          <FilterAndOrderBar seteador2={seteador2} seteador={seteador} />
+          <button onClick={handleReset}>Reset</button>
+          <Countries
+            allCountries={
+              tester && (order || filter)
+                ? tenFilteredAndOrderedCountries
+                : seeAllGlobal
+                ? allCountries.slice(0, 10)
+                : currentCountries
+            }
+          />
+          <Buttons
+            currentPage={currentPage}
+            allCountries={allCountries}
+            prevHandler={prevHandler}
+            nextHandler={nextHandler}
+          />
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

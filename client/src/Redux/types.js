@@ -10,6 +10,7 @@ export const PUTACTIVITY = "PUTACTIVITY";
 export const SET_ACCESS = "SET_ACCESS";
 export const FILTER_COUNTRIES_BY_CONTINENT = "FILTER_COUNTRIES_BY_CONTINENT";
 export const ORDER_COUNTRIES = "ORDER_COUNTRIES";
-export const FILTER_COUNTRIES_BY_SUBREGION = "FILTER_COUNTRIES_BY_SUBREGION"
-
-// export const POSTIMAGE = 'POSTIMAGE' ----- when we fulfill what the readme file requests, we will add this functionality to it
+export const FILTER_COUNTRIES_BY_SUBREGION = "FILTER_COUNTRIES_BY_SUBREGION";
+export const SEE_ALL = "SEE_ALL";
+export const SET_TESTER = "SET_TESTER";
+export const SET_SEE_ALL = "SET_SEE_ALL";

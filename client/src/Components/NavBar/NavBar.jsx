@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 
 const NavBar = (props) => {
-
   const handleClick = () => {
     props.logOut();
   };
@@ -9,10 +8,10 @@ const NavBar = (props) => {
   return (
     <div>
       <button>
-        <NavLink to="/create">Create Activity</NavLink>
+        <NavLink to="/home">Home</NavLink>
       </button>
       <button>
-        <NavLink to="/home">Home</NavLink>
+        <NavLink to="/create">Create Activity</NavLink>
       </button>
       <button>
         <NavLink to="/about">About</NavLink>

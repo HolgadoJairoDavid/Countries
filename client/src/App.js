@@ -53,7 +53,7 @@ function App() {
         pathname === "/home/search") &&
       navigate("/login");
 
-    if (allCountries.length === 0) {
+    if (allCountries.length === 0 && pathname !== "/" && pathname !== "/register") {
       dispatch(getAllCountries());
     }
   }, [dispatch, allCountries, access, navigate, pathname]);

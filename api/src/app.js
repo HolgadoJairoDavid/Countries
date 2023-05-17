@@ -12,13 +12,14 @@ const getAllActivities = require("./routes/getAllActivities.js");
 const putActivity = require("./routes/putActivity.js");
 const login = require("./routes/login.js");
 const register = require("./routes/register.js");
+const getImage = require("./routes/getImage.js")
 
 require("./db.js");
 
 const server = express();
 server.name = "API";
 
-server.use(express.static('public'))
+server.use(express.static('../client/src/assets/'))
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
@@ -37,7 +38,7 @@ server.use((req, res, next) => {
 
 // We add the middleware of our application
 
-
+server.use(getImage)
 server.use(getAllCountries);
 server.use(getAllCountriesByName);
 server.use(getCountryById);

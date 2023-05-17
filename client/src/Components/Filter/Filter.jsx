@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { filterCountriesByContinent, filterCountriesBySubregion } from "../../Redux/actions";
+import { filterCountriesByContinent, filterCountriesBySubregion, seeAll } from "../../Redux/actions";
 
 const Filter = (props) => {
     const dispatch = useDispatch()
@@ -20,19 +20,23 @@ const Filter = (props) => {
 
     const handleContinents = (event) => {
         dispatch(filterCountriesByContinent(event.target.value))
-        props.nextHandler()
-        props.prevHandler()
+        props.seteador()
     }
 
     const handleSubregions = (event) => {
       dispatch(filterCountriesBySubregion(event.target.value))
-        props.nextHandler()
-        props.prevHandler()
+      props.seteador()
     }
-  return (
+
+    // const handleReset = () => {
+    //   dispatch(seeAll())
+    //   props.seteador()
+    //   props.seteador2()
+    // }
+  return ( 
     <div>
       <select onChange={handleContinents}>
-        <option selected disabled>
+      <option selected disabled>
           Select a continent
         </option>
         {continents.map((continent, index) => (
@@ -48,6 +52,7 @@ const Filter = (props) => {
           <option key={index} value={subregion}>{subregion}</option>
         ))}
       </select>
+      {/* <button onClick={handleReset}>Reset</button> */}
     </div>
   );
 };
