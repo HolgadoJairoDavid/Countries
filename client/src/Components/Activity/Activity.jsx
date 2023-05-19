@@ -22,7 +22,7 @@ const Activity = (props) => {
       <h1>{props.name}</h1>
       <p>{props.difficulty}</p>
       <p>{props.duration}</p>
-      <p>{props.season}</p>
+      <div>{props.season && props.season.map((value, index) => <p key={index}>{value}</p>)}</div>
       <img
         src={props.image} 
         alt={props.name}

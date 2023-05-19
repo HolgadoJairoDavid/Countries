@@ -16,15 +16,15 @@ const validate = (state) => {
         errors.duration= 'Enter a duration'
     }
 
-    if(state.season === ''){
+    if(!state.season.length){
         errors.season= 'Select a season'
     }
     if(!state.countriesNames.length){
         errors.countriesNames = 'Select a country'
     }
-    // if(!state.image){
-    //     errors.image = 'Upload a image'
-    // }
+    if(!state.image){
+        errors.image = 'Upload a image'
+    }
     return errors;
 }
 

@@ -29,15 +29,16 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       season: {
-        type: DataTypes.ENUM("Summer", "Autumn", "Winter", "Spring"),
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
       image: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      countriesNames: { 
-        type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false 
+      countriesNames: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
       },
     },
     { timestamps: false }

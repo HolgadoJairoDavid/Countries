@@ -24,7 +24,7 @@ const postActivity = async (req, res) => {
           name,
           difficulty,
           duration,
-          season,
+          season: season,
           image,
           countriesNames: countriesNames
         },

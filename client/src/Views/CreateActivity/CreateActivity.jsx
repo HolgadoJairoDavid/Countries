@@ -12,7 +12,7 @@ const CreateActivity = (props) => {
     name: "",
     difficulty: "",
     duration: "",
-    season: "",
+    season: [],
     image: "",
     countriesNames: [],
   });
@@ -33,7 +33,7 @@ const CreateActivity = (props) => {
   };
 
   const handleClick = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     setState({
       ...state,
       countriesNames: [...state.countriesNames, event.target.value],
@@ -41,15 +41,27 @@ const CreateActivity = (props) => {
   };
 
   const handleRemove = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     setState({
       ...state,
-      countriesNames: state.countriesNames.filter(countryName => countryName !== event.target.value)
+      countriesNames: state.countriesNames.filter(
+        (countryName) => countryName !== event.target.value
+      ),
     });
-  }
+  };
 
-  const countriesByActivity = allCountries.filter(country => state.countriesNames.includes(country.name))
-  
+  const countriesByActivity = allCountries.filter((country) =>
+    state.countriesNames.includes(country.name)
+  );
+
+  const handleSeasons = (event) => {
+    if(state.season.includes(event.target.value)){
+      setState({...state, season: state.season.filter(value => value !== event.target.value)})
+    } else {
+      setState({...state, season: [...state.season, event.target.value]})
+    }
+    setError(validate({...state, season: [...state.season, event.target.value]}))
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!Object.keys(error).length) {
@@ -58,7 +70,7 @@ const CreateActivity = (props) => {
         name: "",
         difficulty: "",
         duration: "",
-        season: "",
+        season: [],
         image: "",
         countriesNames: [],
       });
@@ -103,16 +115,45 @@ const CreateActivity = (props) => {
         />
         {error.duration && <p>{error.duration}</p>}
 
-        <label htmlFor="season">Season: </label>
-        <select value={state.season} name="season" onChange={handleChange}>
-          <option selected disabled>
-            Select a season
-          </option>
-          <option value="Summer">Summer</option>
-          <option value="Autumn">Autumn</option>
-          <option value="Winter">Winter</option>
-          <option value="Spring">Spring</option>
-        </select>
+        <label >Season: </label>
+        <div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Summer"
+              onChange={handleSeasons}
+            />
+            <label >Summer</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Autumn"
+              onChange={handleSeasons}
+            />
+            <label>Autumn</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Winter"
+              onChange={handleSeasons}
+            />
+            <label>Winter</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Spring"
+              onChange={handleSeasons}
+            />
+            <label>Spring</label>
+          </div>
+        </div>
         {error.season && <p>{error.season}</p>}
 
         <label htmlFor="countriesNames">Country: </label>
@@ -125,7 +166,7 @@ const CreateActivity = (props) => {
         {error.countriesNames && <p>{error.countriesNames}</p>}
         <div>
           {countriesByName &&
-            countriesByName.slice(0,15).map((country, index) => {
+            countriesByName.slice(0, 15).map((country, index) => {
               return (
                 <div key={`${index}SearchCountries`}>
                   <CountryCreateActivity
@@ -134,7 +175,11 @@ const CreateActivity = (props) => {
                     name={country.name}
                     image={country.image}
                   />
-                  <button key={`${index}add`} value={country.name} onClick={handleClick}>
+                  <button
+                    key={`${index}add`}
+                    value={country.name}
+                    onClick={handleClick}
+                  >
                     +
                   </button>
                 </div>
@@ -153,7 +198,11 @@ const CreateActivity = (props) => {
                     name={country.name}
                     image={country.image}
                   />
-                  <button key={index} value={country.name} onClick={handleRemove}>
+                  <button
+                    key={index}
+                    value={country.name}
+                    onClick={handleRemove}
+                  >
                     -
                   </button>
                 </div>
@@ -161,16 +210,23 @@ const CreateActivity = (props) => {
             })}
         </div>
         <label htmlFor="image">Image: </label>
-        <input type="text" value={state.image} name="image" onChange={handleChange}/>
+        <input
+          type="text"
+          value={state.image}
+          name="image"
+          onChange={handleChange}
+        />
 
-         {state.image && (
+        {state.image && (
           <div>
             <p>Imagen cargada: </p>
             <img src={state.image} alt="Imagen cargada" />
           </div>
         )}
 
-        <button onClick={handleSubmit} disabled={!state.name}>Submit</button>
+        <button onClick={handleSubmit} disabled={!state.name}>
+          Submit
+        </button>
       </form>
     </div>
   );

@@ -1,13 +1,9 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import React from "react";
 import style from "./putActivity.module.css";
 import validate from "./validate";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getActivityById,
-  putActivity,
-  getCountriesByName,
-} from "../../Redux/actions";
+import { putActivity, getCountriesByName } from "../../Redux/actions";
 import CountryCreateActivity from "../../Components/CountryCreateActivity/CountryCreateActivity";
 
 const PutActivity = (props) => {
@@ -49,11 +45,14 @@ const PutActivity = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    if(state.countriesRemove.includes(event.target.value) && activityById.countriesNames.includes(event.target.value)){
+    if (
+      state.countriesRemove.includes(event.target.value) &&
+      activityById.countriesNames.includes(event.target.value)
+    ) {
       setState({
         ...state,
-        countriesNames: [...state.countriesNamesUpdate, event.target.value], 
-      })
+        countriesNames: [...state.countriesNamesUpdate, event.target.value],
+      });
     }
     setState({
       ...state,
@@ -80,6 +79,20 @@ const PutActivity = (props) => {
         ? [...state.countriesRemove, event.target.value]
         : [...state.countriesRemove],
     });
+  };
+
+  const handleSeasons = (event) => {
+    if (state.season.includes(event.target.value)) {
+      setState({
+        ...state,
+        season: state.season.filter((value) => value !== event.target.value),
+      });
+    } else {
+      setState({ ...state, season: [...state.season, event.target.value] });
+    }
+    setError(
+      validate({ ...state, season: [...state.season, event.target.value] })
+    );
   };
 
   return (
@@ -120,18 +133,50 @@ const PutActivity = (props) => {
         />
         {error.duration && <p>{error.duration}</p>}
 
-        <label htmlFor="season">Season: </label>
-        <select value={state.season} name="season" onChange={handleChange}>
-          <option selected disabled>
-            Select a season
-          </option>
-          <option value="Summer">Summer</option>
-          <option value="Autumn">Autumn</option>
-          <option value="Winter">Winter</option>
-          <option value="Spring">Spring</option>
-        </select>
+        <label>Season: </label>
+        <div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Summer"
+              onChange={handleSeasons}
+              checked={state.season.includes("Summer")}
+            />
+            <label >Summer</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Autumn"
+              onChange={handleSeasons}
+              checked={state.season.includes("Autumn")}
+            />
+            <label >Autumn</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Winter"
+              onChange={handleSeasons}
+              checked={state.season.includes("Winter")}
+            />
+            <label>Winter</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="season"
+              value="Spring"
+              onChange={handleSeasons}
+              checked={state.season.includes("Spring")}
+            />
+            <label>Spring</label>
+          </div>
+        </div>
         {error.season && <p>{error.season}</p>}
-
         <label htmlFor="countriesNames">Country: </label>
         <input
           type="search"
