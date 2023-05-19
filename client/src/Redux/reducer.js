@@ -13,6 +13,11 @@ import {
   SEE_ALL,
   SET_TESTER,
   SET_SEE_ALL,
+  CLEAN_COUNTRY_BY_ID,
+  CLEAN_ALL,
+  GET_ACTIVITY_BY_ID,
+  FILTER_BY_ACTIVITIES,
+  SET_FILTER_AND_ORDER
 } from "./types";
 
 // FOR DETAIL COMPONENT WE USE A LOCAL STATE
@@ -28,6 +33,7 @@ const initialStore = {
   allActivities: [],
   countriesByName: [],
   countryById: {},
+  activityById: {},
   putActivity: {},
 };
 
@@ -138,6 +144,20 @@ const reducer = (state = initialStore, { type, payload }) => {
           .slice(0, 10),
       };
 
+    case FILTER_BY_ACTIVITIES:
+      return {
+        ...state,
+        filter: true,
+        tester: true,
+        filteredAndOrderedCountries: state.allCountries.filter(
+          (country) => country.activitiesData.some(activity => activity.name === payload)
+        ),
+        tenFilteredAndOrderedCountries: state.allCountries.filter(
+          (country) => country.activitiesData.some(activity => activity.name === payload)
+        )
+          .slice(0, 10),
+      }
+
     // SEE_ALL
 
     case SEE_ALL:
@@ -161,6 +181,32 @@ const reducer = (state = initialStore, { type, payload }) => {
         ...state,
         seeAll: false,
       };
+
+    case CLEAN_COUNTRY_BY_ID:
+      return {
+        ...state,
+        countryById: {}
+      }
+    case CLEAN_ALL: 
+    return {
+      ...state,
+      allCountries: [],
+      filteredAndOrderedCountries: [],
+      tenFilteredAndOrderedCountries: [],
+    }
+
+    case GET_ACTIVITY_BY_ID:
+      return {
+        ...state,
+        activityById: payload
+      }
+
+    case SET_FILTER_AND_ORDER: 
+      return {
+        ...state,
+        filter: false,
+        order: false
+      }
 
     default:
       return state;

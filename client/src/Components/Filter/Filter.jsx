@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { filterCountriesByContinent, filterCountriesBySubregion, seeAll } from "../../Redux/actions";
+import { filterCountriesByActivities, filterCountriesByContinent, filterCountriesBySubregion } from "../../Redux/actions";
 
 const Filter = (props) => {
     const dispatch = useDispatch()
   const allCountries = useSelector((state) => state.allCountries);
+  const allActivities = useSelector(state => state.allActivities)
+
   const continents = [];
   allCountries.map((country) => {
     if (!continents.includes(country.continent)) {
@@ -18,6 +20,15 @@ const Filter = (props) => {
     }
   });
 
+  const activities = [];
+  if (Array.isArray(allActivities)) {
+    allActivities.map((activity) => {
+      if (!subregions.includes(activity.name)) {
+        activities.push(activity.name);
+      }
+    });
+  }
+
     const handleContinents = (event) => {
         dispatch(filterCountriesByContinent(event.target.value))
         props.seteador()
@@ -28,11 +39,10 @@ const Filter = (props) => {
       props.seteador()
     }
 
-    // const handleReset = () => {
-    //   dispatch(seeAll())
-    //   props.seteador()
-    //   props.seteador2()
-    // }
+    const handleActivities = (event) => {
+      dispatch(filterCountriesByActivities(event.target.value))
+      props.seteador()
+    }
   return ( 
     <div>
       <select onChange={handleContinents}>
@@ -52,7 +62,16 @@ const Filter = (props) => {
           <option key={index} value={subregion}>{subregion}</option>
         ))}
       </select>
-      {/* <button onClick={handleReset}>Reset</button> */}
+
+      <select onChange={handleActivities}>
+        <option selected disabled>
+          Select a activity
+        </option>
+        {activities.map((activity, index) => (
+          <option key={index} value={activity}>{activity}</option>
+        ))}
+      </select>
+
     </div>
   );
 };

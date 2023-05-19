@@ -1,31 +1,46 @@
-import { postActivity, getCountriesByName } from "../../Redux/actions";
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
-import style from "./createActivity.module.css";
+import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import style from "./putActivity.module.css";
 import validate from "./validate";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getActivityById,
+  putActivity,
+  getCountriesByName,
+} from "../../Redux/actions";
 import CountryCreateActivity from "../../Components/CountryCreateActivity/CountryCreateActivity";
 
-const CreateActivity = (props) => {
-  const countriesByName = useSelector((state) => state.countriesByName);
-  const allCountries = useSelector((state) => state.allCountries);
-  const [state, setState] = React.useState({
-    name: "",
-    difficulty: "",
-    duration: "",
-    season: "",
-    image: "",
-    countriesNames: [],
-  });
-  const [error, setError] = React.useState({});
-  const [name, setName] = React.useState("");
-
+const PutActivity = (props) => {
+  const { id } = useParams();
   const dispatch = useDispatch();
 
+  const activityById = useSelector((state) => state.activityById);
+  const allCountries = useSelector((state) => state.allCountries);
+  const countriesByName = useSelector((state) => state.countriesByName);
+  const [name, setName] = React.useState("");
+
+  const [state, setState] = React.useState({
+    name: activityById.name,
+    difficulty: activityById.difficulty,
+    duration: activityById.duration,
+    season: activityById.season,
+    image: activityById.image,
+    countriesNames: activityById.countriesNames,
+    countriesRemove: [],
+    countriesNamesUpdate: [],
+  });
+
+  const [error, setError] = React.useState({});
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
     setError(validate({ ...state, [event.target.name]: event.target.value }));
   };
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!Object.keys(error).length) {
+      dispatch(putActivity(id, state));
+    }
+  };
   const handleCountries = (event) => {
     setName(event.target.value);
     setError(validate({ ...state, [event.target.name]: event.target.value }));
@@ -33,40 +48,42 @@ const CreateActivity = (props) => {
   };
 
   const handleClick = (event) => {
-    event.preventDefault()
+    event.preventDefault();
+    if(state.countriesRemove.includes(event.target.value) && activityById.countriesNames.includes(event.target.value)){
+      setState({
+        ...state,
+        countriesNames: [...state.countriesNamesUpdate, event.target.value], 
+      })
+    }
     setState({
       ...state,
       countriesNames: [...state.countriesNames, event.target.value],
+      countriesNamesUpdate: [...state.countriesNamesUpdate, event.target.value],
     });
   };
 
+  const countriesByActivity = allCountries.filter((country) =>
+    state.countriesNames.includes(country.name)
+  );
+
   const handleRemove = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     setState({
       ...state,
-      countriesNames: state.countriesNames.filter(countryName => countryName !== event.target.value)
+      countriesNames: state.countriesNames.filter(
+        (countryName) => countryName !== event.target.value
+      ),
+      countriesNamesUpdate: state.countriesNamesUpdate.filter(
+        (countryName) => countryName !== event.target.value
+      ),
+      countriesRemove: activityById.countriesNames.includes(event.target.value)
+        ? [...state.countriesRemove, event.target.value]
+        : [...state.countriesRemove],
     });
-  }
-
-  const countriesByActivity = allCountries.filter(country => state.countriesNames.includes(country.name))
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!Object.keys(error).length) {
-      dispatch(postActivity(state));
-      setState({
-        name: "",
-        difficulty: "",
-        duration: "",
-        season: "",
-        image: "",
-        countriesNames: [],
-      });
-    }
   };
 
   return (
-    <div className={style.Container}>
+    <div>
       <form className={style.Form}>
         <label htmlFor="name">Name: </label>
         <input
@@ -125,7 +142,7 @@ const CreateActivity = (props) => {
         {error.countriesNames && <p>{error.countriesNames}</p>}
         <div>
           {countriesByName &&
-            countriesByName.slice(0,15).map((country, index) => {
+            countriesByName.slice(0, 15).map((country, index) => {
               return (
                 <div key={`${index}SearchCountries`}>
                   <CountryCreateActivity
@@ -134,7 +151,11 @@ const CreateActivity = (props) => {
                     name={country.name}
                     image={country.image}
                   />
-                  <button key={`${index}add`} value={country.name} onClick={handleClick}>
+                  <button
+                    key={`${index}add`}
+                    value={country.name}
+                    onClick={handleClick}
+                  >
                     +
                   </button>
                 </div>
@@ -153,27 +174,37 @@ const CreateActivity = (props) => {
                     name={country.name}
                     image={country.image}
                   />
-                  <button key={index} value={country.name} onClick={handleRemove}>
+                  <button
+                    key={index}
+                    value={country.name}
+                    onClick={handleRemove}
+                  >
                     -
                   </button>
                 </div>
               );
             })}
         </div>
-        <label htmlFor="image">Image: </label>
-        <input type="text" value={state.image} name="image" onChange={handleChange}/>
+        {error.countryName && <p>{error.countryName}</p>}
 
-         {state.image && (
+        <label htmlFor="image">Image: </label>
+        <input
+          type="text"
+          value={state.image}
+          name="image"
+          onChange={handleChange}
+        />
+
+        {state.image && (
           <div>
             <p>Imagen cargada: </p>
             <img src={state.image} alt="Imagen cargada" />
           </div>
         )}
-
-        <button onClick={handleSubmit} disabled={!state.name}>Submit</button>
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );
 };
 
-export default CreateActivity;
+export default PutActivity;

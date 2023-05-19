@@ -13,13 +13,16 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountries, setAccess } from "./Redux/actions";
+import { getAllCountries, setAccess, setFilterAndOrder, seeAll, getAllActivities } from "./Redux/actions";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
+import PutActivity from "./Views/PutActivity/PutActivity";
+import Activities from "./Views/Activities/Activities";
 
 function App() {
   const navigate = useNavigate();
   let { pathname } = useLocation();
+  const allActivities = useSelector((state) => state.allActivities);
   const allCountries = useSelector((state) => state.allCountries);
   const access = useSelector((state) => state.access);
   const dispatch = useDispatch();
@@ -44,6 +47,8 @@ function App() {
   const logOut = () => {
     navigate("/login");
     dispatch(setAccess(false));
+    dispatch(seeAll())
+    dispatch(setFilterAndOrder())
   };
 
   useEffect(() => {
@@ -53,22 +58,35 @@ function App() {
         pathname === "/home/search") &&
       navigate("/login");
 
-    if (allCountries.length === 0 && pathname !== "/" && pathname !== "/register") {
+    if (
+      allCountries.length === 0 &&
+      pathname !== "/" &&
+      pathname !== "/register"
+    ) {
       dispatch(getAllCountries());
     }
-  }, [dispatch, allCountries, access, navigate, pathname]);
+      if(allActivities.length === 0){
+        dispatch(getAllActivities())
+      }
+    
+  }, [dispatch, allCountries, access, navigate, allActivities, pathname]);
 
   return (
     <div className="App">
-      {(pathname === '/home' || pathname === '/home/search' || pathname === '/create') && <NavBar logOut={logOut} />}
+      {(pathname === "/home" ||
+        pathname === "/home/search" ||
+        pathname === "/create" || pathname === "/activities" ) && <NavBar logOut={logOut} />}
 
       {pathname === "/" && <Landing />}
 
-      {(pathname === "/home" || pathname === "/home/search") && <SearchBar />}
+      {(pathname === "/home" ||
+        pathname === "/home/search") && <SearchBar />}
 
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreateActivity />} />
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/activities/:id" element={<PutActivity />} />
         <Route path="/login" element={<Login login={login} />} />
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />

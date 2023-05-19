@@ -1,13 +1,19 @@
+const { Op } = require("sequelize");
+const path = require('path')
 const { Activity } = require("../db");
 const { Country } = require("../db");
 const findAllActivities = require("../Helpers/findAllActivities");
 
 const postActivity = async (req, res) => {
-  const { name, difficulty, duration, season, countryName } = req.body;
-  const image = req.file.path;
+  const { name, difficulty, duration, season, countriesNames, image } = req.body;
 
   try {
-    if (!name || !difficulty || !duration || !season || !countryName || !image) {
+    if (
+      !name ||
+      !difficulty ||
+      !duration ||
+      !season || !image || !countriesNames.length
+    ) {
       throw Error("Faltan datos");
     } else {
       const [activity, boolean] = await Activity.findOrCreate({
@@ -19,18 +25,20 @@ const postActivity = async (req, res) => {
           difficulty,
           duration,
           season,
-          image
+          image,
+          countriesNames: countriesNames
         },
       });
 
       if (activity) {
-        const countryFound = await Country.findOne({
+        const countriesFound = await Country.findAll({
           where: {
-            name: countryName,
+            name: {
+              [Op.in]: countriesNames,
+            },
           },
         });
-
-        await activity.addCountry(countryFound); // addModel
+        await activity.addCountries(countriesFound); // addModel
       }
 
       const results = await findAllActivities();

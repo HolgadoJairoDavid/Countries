@@ -1,10 +1,13 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import validate from "./validate";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { cleanAll } from "../../Redux/actions";
 
 const Register = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [state, setState] = React.useState({
     email: "",
     password: "",
@@ -26,6 +29,9 @@ const Register = (props) => {
       navigate("/login");
     }
   };
+  useEffect(()=>{
+    dispatch(cleanAll())
+  }, [dispatch])
   return (
     <div>
       <form onSubmit={handleSubmit}>

@@ -12,7 +12,12 @@ import {
   FILTER_COUNTRIES_BY_SUBREGION,
   SEE_ALL,
   SET_TESTER,
-  SET_SEE_ALL
+  SET_SEE_ALL,
+  CLEAN_COUNTRY_BY_ID,
+  CLEAN_ALL,
+  GET_ACTIVITY_BY_ID,
+  FILTER_BY_ACTIVITIES,
+  SET_FILTER_AND_ORDER,
 } from "./types";
 import axios from "axios";
 
@@ -61,6 +66,20 @@ export const getCountriesByName = (name) => {
   };
 };
 
+export const getActivityById = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${endpointActivities}/${id}`);
+      return dispatch({
+        type: GET_ACTIVITY_BY_ID,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(`%cerror: ${error.message}`, `color:red;font-weight:bold`);
+    }
+  };
+};
+
 export const getAllActivities = () => {
   return async (dispatch) => {
     try {
@@ -89,24 +108,10 @@ export const deleteActivity = (id) => {
   };
 };
 
-export const postActivity = (
-  { name, difficulty, duration, season, countryName },
-  image
-) => {
+export const postActivity = (state) => {
   return async (dispatch) => {
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("difficulty", difficulty);
-      formData.append("duration", duration);
-      formData.append("season", season);
-      formData.append("countryName", countryName);
-      formData.append("image", image);
-      const { data } = await axios.post(endpointActivities, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await axios.post(endpointActivities, state);
       return dispatch({
         type: POSTACTIVITY,
         payload: data,
@@ -155,6 +160,13 @@ export const filterCountriesBySubregion = (payload) => {
   };
 };
 
+export const filterCountriesByActivities = (payload) => {
+  return {
+    type: FILTER_BY_ACTIVITIES,
+    payload,
+  };
+};
+
 export const orderCountries = (payload) => {
   return {
     type: ORDER_COUNTRIES,
@@ -176,6 +188,24 @@ export const setTester = () => {
 
 export const setSeeAll = () => {
   return {
-    type: SET_SEE_ALL
-  }
-}
+    type: SET_SEE_ALL,
+  };
+};
+
+export const cleanCountryById = () => {
+  return {
+    type: CLEAN_COUNTRY_BY_ID,
+  };
+};
+
+export const cleanAll = () => {
+  return {
+    type: CLEAN_ALL,
+  };
+};
+
+export const setFilterAndOrder = () => {
+  return {
+    type: SET_FILTER_AND_ORDER,
+  };
+};

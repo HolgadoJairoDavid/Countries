@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getCountryById } from "../../Redux/actions";
-// const imageContext = require.context("../../assets/", true);
+import { cleanCountryById, getCountryById } from "../../Redux/actions";
 import Activity from "../../Components/Activity/Activity";
 
 const Detail = (props) => {
@@ -12,8 +11,12 @@ const Detail = (props) => {
 
   useEffect(() => {
     dispatch(getCountryById(id));
+    return () => {
+      dispatch(cleanCountryById())
+    }
   }, [dispatch, id]);
 
+  console.log(countryById);
   return (
     <div>
       <div>
@@ -43,7 +46,7 @@ const Detail = (props) => {
                 difficulty={activity.difficulty}
                 duration={activity.duration}
                 season={activity.season}
-                image={activity.image.slice(7, activity.image.length)}
+                image={activity.image}
                 />
               );
             })}

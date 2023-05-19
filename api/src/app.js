@@ -1,6 +1,5 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const multer = require('multer');
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const getAllCountries = require("./routes/getAllCountries.js");
@@ -12,7 +11,8 @@ const getAllActivities = require("./routes/getAllActivities.js");
 const putActivity = require("./routes/putActivity.js");
 const login = require("./routes/login.js");
 const register = require("./routes/register.js");
-const getImage = require("./routes/getImage.js")
+const getImage = require("./routes/getImage.js");
+const getActivityById = require("./routes/getActivityById.js")
 
 require("./db.js");
 
@@ -37,7 +37,7 @@ server.use((req, res, next) => {
 });
 
 // We add the middleware of our application
-
+server.use(getActivityById)
 server.use(getImage)
 server.use(getAllCountries);
 server.use(getAllCountriesByName);
