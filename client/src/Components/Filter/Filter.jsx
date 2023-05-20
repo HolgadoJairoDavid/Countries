@@ -45,7 +45,7 @@ const Filter = (props) => {
     }
   return ( 
     <div>
-      <select onChange={handleContinents} defaultValue='all'>
+      <select onChange={handleContinents} defaultValue=''>
       <option value='' disabled>
         Select a continent
         </option>
@@ -54,7 +54,7 @@ const Filter = (props) => {
         ))}
       </select>
 
-      <select onChange={handleSubregions} defaultValue='all'>
+      <select onChange={handleSubregions} defaultValue=''>
       <option value='' disabled>
         Select a subregion
         </option>
@@ -63,7 +63,7 @@ const Filter = (props) => {
         ))}
       </select>
 
-      <select onChange={handleActivities} defaultValue='all'>
+      <select onChange={handleActivities} defaultValue=''>
       <option value='' disabled>
           Select a activity
         </option>

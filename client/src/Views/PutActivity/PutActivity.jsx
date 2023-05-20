@@ -3,7 +3,7 @@ import React from "react";
 import style from "./putActivity.module.css";
 import validate from "./validate";
 import { useDispatch, useSelector } from "react-redux";
-import { putActivity, getCountriesByName } from "../../Redux/actions";
+import { putActivity, getCountriesByName, getAllCountries } from "../../Redux/actions";
 import CountryCreateActivity from "../../Components/CountryCreateActivity/CountryCreateActivity";
 
 const PutActivity = (props) => {
@@ -35,6 +35,7 @@ const PutActivity = (props) => {
     event.preventDefault();
     if (!Object.keys(error).length) {
       dispatch(putActivity(id, state));
+      dispatch(getAllCountries())
     }
   };
   const handleCountries = (event) => {
@@ -63,7 +64,7 @@ const PutActivity = (props) => {
 
   const countriesByActivity = allCountries.filter((country) =>
     state.countriesNames.includes(country.name)
-  );
+  ) ;
 
   const handleRemove = (event) => {
     event.preventDefault();
@@ -142,7 +143,7 @@ const PutActivity = (props) => {
               name="season"
               value="Summer"
               onChange={handleSeasons}
-              checked={state.season.includes("Summer")}
+              checked={state.season && state.season.includes("Summer")}
             />
             <label >Summer</label>
           </div>
@@ -152,7 +153,7 @@ const PutActivity = (props) => {
               name="season"
               value="Autumn"
               onChange={handleSeasons}
-              checked={state.season.includes("Autumn")}
+              checked={state.season && state.season.includes("Autumn")}
             />
             <label >Autumn</label>
           </div>
@@ -162,7 +163,7 @@ const PutActivity = (props) => {
               name="season"
               value="Winter"
               onChange={handleSeasons}
-              checked={state.season.includes("Winter")}
+              checked={state.season && state.season.includes("Winter")}
             />
             <label>Winter</label>
           </div>
@@ -172,7 +173,7 @@ const PutActivity = (props) => {
               name="season"
               value="Spring"
               onChange={handleSeasons}
-              checked={state.season.includes("Spring")}
+              checked={state.season && state.season.includes("Spring")}
             />
             <label>Spring</label>
           </div>

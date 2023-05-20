@@ -1,14 +1,18 @@
 import { useDispatch } from "react-redux";
-import { deleteActivity, getActivityById, getCountryById } from "../../Redux/actions";
-import { NavLink } from "react-router-dom";
+import { deleteActivity, getActivityById, getAllActivities, getCountryById } from "../../Redux/actions";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 const Activity = (props) => {
 
   const dispatch = useDispatch()
+  const {pathname} = useLocation()
   const handleDelete = () => {
     dispatch(deleteActivity(props.id))
-    dispatch(getCountryById(props.countryId))
+    dispatch(getAllActivities())
+    if(pathname.includes('detail')){
+      dispatch(getCountryById(props.countryId))
+    }
   }
 
   useEffect(()=> {

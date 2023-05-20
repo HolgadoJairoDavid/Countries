@@ -17,11 +17,15 @@ import {
   CLEAN_ALL,
   GET_ACTIVITY_BY_ID,
   FILTER_BY_ACTIVITIES,
-  SET_FILTER_AND_ORDER
+  SET_FILTER_AND_ORDER,
+  CLEAN_SEARCH_RESULTS,
+  POSTING,
+  CLEAN_ALL_ACTIVITIES,
 } from "./types";
 
 // FOR DETAIL COMPONENT WE USE A LOCAL STATE
 const initialStore = {
+  post: false,
   seeAll: false,
   tester: true,
   filter: false,
@@ -70,6 +74,7 @@ const reducer = (state = initialStore, { type, payload }) => {
       return {
         ...state,
         allActivities: payload,
+        post: true,
       };
     case PUTACTIVITY:
       return {
@@ -149,14 +154,15 @@ const reducer = (state = initialStore, { type, payload }) => {
         ...state,
         filter: true,
         tester: true,
-        filteredAndOrderedCountries: state.allCountries.filter(
-          (country) => country.activitiesData.some(activity => activity.name === payload)
+        filteredAndOrderedCountries: state.allCountries.filter((country) =>
+          country.activitiesData.some((activity) => activity.name === payload)
         ),
-        tenFilteredAndOrderedCountries: state.allCountries.filter(
-          (country) => country.activitiesData.some(activity => activity.name === payload)
-        )
+        tenFilteredAndOrderedCountries: state.allCountries
+          .filter((country) =>
+            country.activitiesData.some((activity) => activity.name === payload)
+          )
           .slice(0, 10),
-      }
+      };
 
     // SEE_ALL
 
@@ -185,28 +191,46 @@ const reducer = (state = initialStore, { type, payload }) => {
     case CLEAN_COUNTRY_BY_ID:
       return {
         ...state,
-        countryById: {}
-      }
-    case CLEAN_ALL: 
-    return {
-      ...state,
-      allCountries: [],
-      filteredAndOrderedCountries: [],
-      tenFilteredAndOrderedCountries: [],
-    }
+        countryById: {},
+      };
+    case CLEAN_ALL:
+      return {
+        ...state,
+        allCountries: [],
+        filteredAndOrderedCountries: [],
+        tenFilteredAndOrderedCountries: [],
+        countriesByName: [],
+        allActivities: [],
+      };
+
+    case CLEAN_SEARCH_RESULTS:
+      return {
+        ...state,
+        countriesByName: [],
+      };
 
     case GET_ACTIVITY_BY_ID:
       return {
         ...state,
-        activityById: payload
-      }
+        activityById: payload,
+      };
 
-    case SET_FILTER_AND_ORDER: 
+    case SET_FILTER_AND_ORDER:
       return {
         ...state,
         filter: false,
-        order: false
-      }
+        order: false,
+      };
+    case POSTING:
+      return {
+        ...state,
+        post: payload,
+      };
+    case CLEAN_ALL_ACTIVITIES: 
+    return {
+      ...state,
+      allActivities: []
+    }
 
     default:
       return state;

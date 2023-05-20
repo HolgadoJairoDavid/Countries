@@ -6,5 +6,6 @@ import CreateActivity from "./CreateActivity/CreateActivity";
 import Landing from "./Landing/Landing";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+import Error from "./Error/Error"
 
-export { Home, Detail, SearchBar, SearchResults, CreateActivity, Landing, Login, Register };
+export { Home, Detail, SearchBar, SearchResults, CreateActivity, Landing, Login, Register, Error };

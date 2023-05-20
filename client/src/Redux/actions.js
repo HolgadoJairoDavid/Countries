@@ -18,6 +18,9 @@ import {
   GET_ACTIVITY_BY_ID,
   FILTER_BY_ACTIVITIES,
   SET_FILTER_AND_ORDER,
+  CLEAN_SEARCH_RESULTS,
+  POSTING,
+  CLEAN_ALL_ACTIVITIES,
 } from "./types";
 import axios from "axios";
 
@@ -207,5 +210,24 @@ export const cleanAll = () => {
 export const setFilterAndOrder = () => {
   return {
     type: SET_FILTER_AND_ORDER,
+  };
+};
+
+export const cleanSearchResults = () => {
+  return {
+    type: CLEAN_SEARCH_RESULTS,
+  };
+};
+
+export const posting = (paylaod) => {
+  return {
+    type: POSTING,
+    paylaod,
+  };
+};
+
+export const cleanAllACtivities = () => {
+  return {
+    type: CLEAN_ALL_ACTIVITIES,
   };
 };

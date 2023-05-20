@@ -1,4 +1,4 @@
-import { postActivity, getCountriesByName } from "../../Redux/actions";
+import { postActivity, getCountriesByName, getAllCountries, cleanSearchResults } from "../../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import style from "./createActivity.module.css";
@@ -29,8 +29,14 @@ const CreateActivity = (props) => {
   const handleCountries = (event) => {
     setName(event.target.value);
     setError(validate({ ...state, [event.target.name]: event.target.value }));
-    dispatch(getCountriesByName(name));
+    if(event.target.value !== "" && name !== ""){
+      dispatch(getCountriesByName(event.target.value));
+    } else if(event.target.value === "") {
+      dispatch(cleanSearchResults())
+    }
   };
+
+  console.log(name);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -66,6 +72,9 @@ const CreateActivity = (props) => {
     event.preventDefault();
     if (!Object.keys(error).length) {
       dispatch(postActivity(state));
+      dispatch(getAllCountries())
+      setName('')
+      dispatch(cleanSearchResults())
       setState({
         name: "",
         difficulty: "",
@@ -93,7 +102,7 @@ const CreateActivity = (props) => {
         <select
           name="difficulty"
           onChange={handleChange}
-          defaultValue={1}
+          defaultValue={''}
         >
           <option value='' disabled>
             Select a difficulty
@@ -123,6 +132,7 @@ const CreateActivity = (props) => {
               name="season"
               value="Summer"
               onChange={handleSeasons}
+              checked={state.season.includes("Summer")}
             />
             <label >Summer</label>
           </div>
@@ -132,6 +142,7 @@ const CreateActivity = (props) => {
               name="season"
               value="Autumn"
               onChange={handleSeasons}
+              checked={state.season.includes("Autumn")}
             />
             <label>Autumn</label>
           </div>
@@ -141,6 +152,7 @@ const CreateActivity = (props) => {
               name="season"
               value="Winter"
               onChange={handleSeasons}
+              checked={state.season.includes("Winter")}
             />
             <label>Winter</label>
           </div>
@@ -150,6 +162,7 @@ const CreateActivity = (props) => {
               name="season"
               value="Spring"
               onChange={handleSeasons}
+              checked={state.season.includes("Spring")}
             />
             <label>Spring</label>
           </div>

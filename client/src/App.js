@@ -8,12 +8,20 @@ import {
   Landing,
   Login,
   Register,
+  Error
 } from "./Views/index";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountries, setAccess, setFilterAndOrder, seeAll, getAllActivities } from "./Redux/actions";
+import {
+  getAllCountries,
+  setAccess,
+  setFilterAndOrder,
+  seeAll,
+  getAllActivities,
+  cleanAllACtivities,
+} from "./Redux/actions";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import PutActivity from "./Views/PutActivity/PutActivity";
@@ -24,8 +32,14 @@ function App() {
   let { pathname } = useLocation();
   const allActivities = useSelector((state) => state.allActivities);
   const allCountries = useSelector((state) => state.allCountries);
+
   const access = useSelector((state) => state.access);
   const dispatch = useDispatch();
+
+  const verify = (path) => {
+    const arrayPath = path.split("/");
+    return ((arrayPath[1] === "detail" || arrayPath[1] === "activities") );
+  };
 
   const login = async (state) => {
     const { email, password } = state;
@@ -37,7 +51,7 @@ function App() {
       dispatch(setAccess(access));
 
       access && navigate("/home");
-      dispatch(getAllActivities())
+      dispatch(getAllActivities());
 
       !access && window.alert("Los datos ingresados son incorrectos");
     } catch (error) {
@@ -48,14 +62,18 @@ function App() {
   const logOut = () => {
     navigate("/login");
     dispatch(setAccess(false));
-    dispatch(seeAll())
-    dispatch(setFilterAndOrder())
+    dispatch(seeAll());
+    dispatch(setFilterAndOrder());
+    dispatch(cleanAllACtivities());
   };
 
   useEffect(() => {
     !access &&
       (pathname === "/home" ||
+        pathname === "/about" ||
+        pathname === "/activities" ||
         pathname === "/create" ||
+        verify(pathname) ||
         pathname === "/home/search") &&
       navigate("/login");
 
@@ -66,28 +84,30 @@ function App() {
     ) {
       dispatch(getAllCountries());
     }
-    
   }, [dispatch, allCountries, access, navigate, allActivities, pathname]);
 
   return (
     <div className="App">
       {(pathname === "/home" ||
         pathname === "/home/search" ||
-        pathname === "/create" || pathname === "/activities" ) && <NavBar logOut={logOut} />}
+        pathname === "/about" ||
+        verify(pathname) ||
+        pathname === "/create" ||
+        pathname === "/activities") && <NavBar logOut={logOut} />}
 
-      {(pathname === "/home" ||
-        pathname === "/home/search") && <SearchBar />}
+      {(pathname === "/home" || pathname === "/home/search") && <SearchBar />}
 
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreateActivity />} />
         <Route path="/activities" element={<Activities />} />
-        <Route path="/activities/:id" element={<PutActivity />} />
+        {<Route path="/activities/:id" element={<PutActivity />} />}
         <Route path="/login" element={<Login login={login} />} />
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/home/search" element={<SearchResults />} />
+        <Route path="/*" element={<Error/>} />
       </Routes>
     </div>
   );
