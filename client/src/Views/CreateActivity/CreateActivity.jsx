@@ -91,11 +91,11 @@ const CreateActivity = (props) => {
 
         <label htmlFor="difficulty">Difficulty: </label>
         <select
-          value={state.difficulty}
           name="difficulty"
           onChange={handleChange}
+          defaultValue={1}
         >
-          <option selected disabled>
+          <option value='' disabled>
             Select a difficulty
           </option>
           <option value={1}>1</option>

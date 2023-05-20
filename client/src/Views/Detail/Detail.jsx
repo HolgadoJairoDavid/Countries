@@ -16,11 +16,11 @@ const Detail = (props) => {
     }
   }, [dispatch, id]);
 
-  console.log(countryById);
   return (
     <div>
       <div>
         <div>
+        <p>{countryById.id}</p>
           <div>
             <img src={countryById.image} alt={countryById.name} />
           </div>

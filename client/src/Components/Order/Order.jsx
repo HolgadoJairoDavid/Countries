@@ -8,26 +8,27 @@ const Order = (props) => {
   };
   return (
     <div>
-      <select onChange={handleChange}>
-        <option selected disabled>
-          Order By Name
+      <select onChange={handleChange} defaultValue='all'>
+      <option value='' disabled>
+        Order By Name
         </option>
+        
         <option value="AlphabeticallyA">A - Z</option>
         <option value="AlphabeticallyD">Z - A</option>
       </select>
 
-      <select onChange={handleChange}>
-        <option selected disabled>
-          Order By Population
+      <select onChange={handleChange} defaultValue='all'>
+      <option value='' disabled>
+        Order By Population
         </option>
         <option value="PopulationA">Lesser to Greater</option>
         <option value="PopulationD">Greater to Lesser</option>
       </select>
 
-      <select onChange={handleChange}>
-        <option selected disabled>
-          Order By Area
-        </option>
+      <select onChange={handleChange} defaultValue='all'>
+      <option value='' disabled>
+        Order By Area
+        </option> 
         <option value="AreaA">Lesser to Greater</option>
         <option value="AreaD">Greater to Lesser</option>
       </select>

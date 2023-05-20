@@ -112,6 +112,7 @@ const PutActivity = (props) => {
           value={state.difficulty}
           name="difficulty"
           onChange={handleChange}
+          defaultValue={state.difficulty}
         >
           <option selected disabled>
             Select a difficulty

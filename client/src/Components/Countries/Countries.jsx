@@ -12,6 +12,7 @@ const Countries = (props) => {
               id={country.id}
               name={country.name}
               image={country.image}
+              continent={country.continent}
             />
           );
         })}

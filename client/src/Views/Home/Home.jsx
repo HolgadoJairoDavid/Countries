@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Countries from "../../Components/Countries/Countries";
 import { useDispatch, useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
 import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
-import { setTester, seeAll, setSeeAll, getAllActivities } from "../../Redux/actions";
+import { setTester, seeAll, setSeeAll } from "../../Redux/actions";
 
 const Home = (props) => {
-  
-const allActivities = useSelector(state => state.allActivities)
+
 const dispatch = useDispatch();
 
   const COUNTRIES_PER_PAGE = 10;

@@ -37,6 +37,7 @@ function App() {
       dispatch(setAccess(access));
 
       access && navigate("/home");
+      dispatch(getAllActivities())
 
       !access && window.alert("Los datos ingresados son incorrectos");
     } catch (error) {
@@ -65,9 +66,6 @@ function App() {
     ) {
       dispatch(getAllCountries());
     }
-      if(allActivities.length === 0){
-        dispatch(getAllActivities())
-      }
     
   }, [dispatch, allCountries, access, navigate, allActivities, pathname]);
 
@@ -77,12 +75,11 @@ function App() {
         pathname === "/home/search" ||
         pathname === "/create" || pathname === "/activities" ) && <NavBar logOut={logOut} />}
 
-      {pathname === "/" && <Landing />}
-
       {(pathname === "/home" ||
         pathname === "/home/search") && <SearchBar />}
 
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreateActivity />} />
         <Route path="/activities" element={<Activities />} />
