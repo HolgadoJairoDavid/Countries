@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
 import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
 import { setTester, seeAll, setSeeAll } from "../../Redux/actions";
+import style from "./home.module.css"
 
 const Home = (props) => {
 
@@ -74,7 +75,7 @@ const dispatch = useDispatch();
     seteador2();
   };
   return (
-    <div>
+    <div className={style.Home}>
       {currentCountries ? (
         <div>
           <FilterAndOrderBar seteador2={seteador2} seteador={seteador} />
