@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import style from "./landing.module.css";
 import BACK1 from "../../Assets/imgLanding/BACK1.png"
 import BACK2 from "../../Assets/imgLanding/BACK2.jpg"
@@ -8,6 +8,10 @@ import BACK5 from "../../Assets/imgLanding/BACK5.jpg"
 import BACK6 from "../../Assets/imgLanding/BACK6.jpg"
 
 const Landing = () => {
+  const navigate = useNavigate()
+  const handleStart = () => {
+    navigate('/login')
+  }
   return (
     <div>
       <div className={style.Background}>
@@ -22,8 +26,7 @@ const Landing = () => {
       <div className={style.Landing}>
         <h2 className={style.Henry}>Henry's</h2>
         <h2 className={style.Subtitle}>Co<span>untries</span> app</h2>
-        <button>
-          <NavLink to="/login" className={style.NavLink}>Start</NavLink>
+        <button onClick={handleStart} className={style.NavLink}>Start
         </button>
       </div>
       <div className={style.Border}>

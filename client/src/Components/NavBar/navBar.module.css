@@ -1,7 +1,7 @@
 .NavBar {
     position: fixed;
     z-index: 1000;
-    background-image: linear-gradient(to right, #007bffac, #3575ff9b, #506dff84, #6764ff71, #7b5aff7f, #7c4ff783, #7943ef66, #7a36e77c, #6229d578, #4b1cc370, #2f0eb182, #00009f73);
+    background-image: linear-gradient(to right, #1537be7f, #342cc99d, #3c23c88e, #4317c788, #4900c68a, #3c00bc85, #2d00b385, #1c00a9a3, #00009f90);
     background-color: #ff3c00a6;
     backdrop-filter: blur(0.4rem);
     -webkit-backdrop-filter: blur(0.4rem);
