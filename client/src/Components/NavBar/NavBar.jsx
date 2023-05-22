@@ -4,7 +4,9 @@ import {
   getAllActivities,
   getAllCountries,
   posting,
+  setSearch,
 } from "../../Redux/actions";
+import style from "./navBar.module.css";
 
 const NavBar = (props) => {
   const dispatch = useDispatch();
@@ -12,16 +14,19 @@ const NavBar = (props) => {
   const allActivities = useSelector((state) => state.allActivities);
   const post = useSelector((state) => state.post);
   const handleClick = () => {
+    dispatch(setSearch());
     props.logOut();
   };
 
   const handleActivities = () => {
+    dispatch(setSearch());
     if (allActivities.length === 0) {
       dispatch(getAllActivities());
     }
   };
 
   const handleHome = () => {
+    dispatch(setSearch());
     if (pathname === "/create" && post) {
       dispatch(getAllCountries());
       dispatch(posting(false));
@@ -29,20 +34,36 @@ const NavBar = (props) => {
   };
 
   return (
-    <div>
-      <button onClick={handleHome}>
-        <NavLink to="/home">Home</NavLink>
-      </button>
-      <button>
-        <NavLink to="/create">Create Activity</NavLink>
-      </button>
-      <button>
-        <NavLink to="/about">About</NavLink>
-      </button>
-      <button onClick={handleActivities}>
-        <NavLink to="/activities">Activities</NavLink>
-      </button>
-      <button onClick={handleClick}>Log Out</button>
+    <div className={style.NavBar}>
+      <div>
+        <button onClick={handleHome}>
+          <NavLink to="/home" className={style.NavLink}>
+            Home
+          </NavLink>
+        </button>
+        <button>
+          <NavLink to="/create" className={style.NavLink}>
+            Create Activity
+          </NavLink>
+        </button>
+        <button>
+          <NavLink to="/about" className={style.NavLink}>
+            About
+          </NavLink>
+        </button>
+        <button onClick={handleActivities}>
+          <NavLink to="/activities" className={style.NavLink}>
+            Activities
+          </NavLink>
+        </button>
+        <button onClick={handleClick}>Log Out</button>
+      </div>
+      <div className={style.Logo}>
+        <h2 className={style.Henry}>Henry's</h2>
+        <h2 className={style.Subtitle}>
+          Co<span>untries</span> app
+        </h2>
+      </div>
     </div>
   );
 };

@@ -15,6 +15,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url("./Assets/imgHome/BACKGROUND.png") no-repeat center center / cover;
+    width: 100vw;
+    height: 100vh;
+    background-attachment: fixed;
+    overflow-x: hidden;
 }
 
 code {

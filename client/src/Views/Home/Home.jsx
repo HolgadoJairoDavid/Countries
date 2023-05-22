@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Buttons from "../../Components/Buttons/Buttons";
 import FilterAndOrderBar from "../../Components/FilterAndOrderBar/FilterAndOrderBar";
 import { setTester, seeAll, setSeeAll } from "../../Redux/actions";
-import style from "./home.module.css"
+import style from "./home.module.css";
+import SearchBar from "../../Components/SearchBar/SearchBar";
 
 const Home = (props) => {
-
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const COUNTRIES_PER_PAGE = 10;
   const seeAllGlobal = useSelector((state) => state.seeAll);
@@ -77,24 +77,30 @@ const dispatch = useDispatch();
   return (
     <div className={style.Home}>
       {currentCountries ? (
-        <div>
-          <FilterAndOrderBar seteador2={seteador2} seteador={seteador} />
-          <button onClick={handleReset}>Reset</button>
-          <Countries
-            allCountries={
-              tester && (order || filter)
-                ? tenFilteredAndOrderedCountries
-                : seeAllGlobal
-                ? allCountries.slice(0, 10)
-                : currentCountries
-            }
-          />
-          <Buttons
-            currentPage={currentPage}
-            allCountries={allCountries}
-            prevHandler={prevHandler}
-            nextHandler={nextHandler}
-          />
+        <div className={style.BarsAndPages}>
+          <div className={style.Bars}>
+            <SearchBar />
+            <FilterAndOrderBar seteador2={seteador2} seteador={seteador} />
+            <button className={style.Reset} onClick={handleReset}>Reset</button>
+          </div>
+          <div className={style.Pages}>
+            {" "}
+            <Countries
+              allCountries={
+                tester && (order || filter)
+                  ? tenFilteredAndOrderedCountries
+                  : seeAllGlobal
+                  ? allCountries.slice(0, 10)
+                  : currentCountries
+              }
+            />
+            <Buttons
+              currentPage={currentPage}
+              allCountries={allCountries}
+              prevHandler={prevHandler}
+              nextHandler={nextHandler}
+            />
+          </div>
         </div>
       ) : (
         <p>Loading...</p>

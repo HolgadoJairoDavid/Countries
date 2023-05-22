@@ -95,8 +95,6 @@ function App() {
         pathname === "/create" ||
         pathname === "/activities") && <NavBar logOut={logOut} />}
 
-      {(pathname === "/home" || pathname === "/home/search") && <SearchBar />}
-
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />

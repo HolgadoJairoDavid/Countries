@@ -21,6 +21,8 @@ import {
   CLEAN_SEARCH_RESULTS,
   POSTING,
   CLEAN_ALL_ACTIVITIES,
+  SET_SEARCH,
+  SET_ORDER_OR_FILTER,
 } from "./types";
 import axios from "axios";
 
@@ -229,5 +231,17 @@ export const posting = (paylaod) => {
 export const cleanAllACtivities = () => {
   return {
     type: CLEAN_ALL_ACTIVITIES,
+  };
+};
+
+export const setSearch = () => {
+  return {
+    type: SET_SEARCH,
+  };
+};
+
+export const setOrderOrFilter = () => {
+  return {
+    type: SET_ORDER_OR_FILTER,
   };
 };

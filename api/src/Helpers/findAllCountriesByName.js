@@ -1,4 +1,4 @@
-const { Country } = require("../db");
+const { Country, Activity } = require("../db");
 const { Op } = require("sequelize");
 
 const findAllCountriesByName = async (name) => {
@@ -8,6 +8,9 @@ const findAllCountriesByName = async (name) => {
         [Op.iLike]: `%${name}%`,
       },
     },
+    include: {
+      model: Activity
+    }
   });
   return results;
 };

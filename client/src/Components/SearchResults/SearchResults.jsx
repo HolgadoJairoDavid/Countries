@@ -2,23 +2,36 @@ import { useSelector } from "react-redux";
 import Country from "../Country/Country";
 import { useEffect } from "react";
 import {useDispatch} from "react-redux"
-import { cleanSearchResults } from "../../Redux/actions";
+import { cleanSearchResults, setOrderOrFilter } from "../../Redux/actions";
+import SearchBar from "../SearchBar/SearchBar";
+import style from "./searchResults.module.css"
+import FilterAndOrderBar from "../FilterAndOrderBar/FilterAndOrderBar"
 
 const SearchResults = (props) => {
   const dispatch = useDispatch()
-  const countriesByName = useSelector((state) => state.countriesByName);
+  const orderOrFilter = useSelector(state => state.orderOrFilter);
+  const countriesByName = useSelector((state) => {if(!orderOrFilter){
+   return state.countriesByName
+  } else {
+    return state.filteredAndOrderedCountriesSearch
+  }});
   useEffect(()=>{
     return ()=> {
       dispatch(cleanSearchResults())
+      dispatch(setOrderOrFilter())
     }
   }, [dispatch])
-  if(!countriesByName.length){
-    return <div>There are no countries with that name</div>
+
+  const handleReset = () => {
+    dispatch(setOrderOrFilter())
   }
   return (
-    <div>
+    <div className={style.SearchResults}>
+      <SearchBar />
+      <FilterAndOrderBar />
+      <button onClick={handleReset}>Reset</button>
       {countriesByName &&
-        countriesByName.map((country) => {
+        countriesByName.slice(0,15).map((country) => {
           return (
             <Country
               key={country.id}
