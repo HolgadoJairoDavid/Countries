@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import {
+  cleanAllACtivities,
   deleteActivity,
-  getActivityById,
   getAllActivities,
   getCountryById,
 } from "../../Redux/actions";
@@ -11,17 +11,22 @@ import style from "./activity.module.css";
 
 const Activity = (props) => {
   const dispatch = useDispatch();
+  // const navigate = useNavigate()
   const { pathname } = useLocation();
   const handleDelete = () => {
     dispatch(deleteActivity(props.id));
-    dispatch(getAllActivities());
+    dispatch(cleanAllACtivities())
+    // navigate('/activities')
+
+    dispatch(getAllActivities)
+
     if (pathname.includes("detail")) {
       dispatch(getCountryById(props.countryId));
     }
   };
 
   useEffect(() => {
-    dispatch(getActivityById(props.id));
+    dispatch(getAllActivities());
   });
 
   return (

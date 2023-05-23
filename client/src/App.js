@@ -8,7 +8,8 @@ import {
   Landing,
   Login,
   Register,
-  Error
+  Error,
+  About
 } from "./Views/index";
 import axios from "axios";
 import { useEffect } from "react";
@@ -105,6 +106,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/home/search" element={<SearchResults />} />
+        <Route path="/about" element={<About />} />
         <Route path="/*" element={<Error/>} />
       </Routes>
     </div>

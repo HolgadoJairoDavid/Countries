@@ -60,7 +60,7 @@
   right: 2px;
   bottom: 2px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   opacity: 0;
   transition: all 300ms;
 }

@@ -3,9 +3,9 @@
   width: 100vw;
   height: 100vh;
   background-attachment: fixed;
-  padding: 10px 0px 0px 10px;
   overflow-x: hidden;
-  padding-top: 60px;
+  position: absolute;
+  padding-left: 10px;
 }
 
 .BarsAndPages {
@@ -14,6 +14,7 @@
 
 .Bars {
   width: 20vw;
+  padding-top: 5px;
 }
 
 .Pages {
@@ -45,6 +46,7 @@
   top: 50px;
   position: relative;
   font-weight: lighter;
+  padding-left: 10px;
   font-size: 2.5em;
   text-shadow: -1px 1px 7px #000;
 }

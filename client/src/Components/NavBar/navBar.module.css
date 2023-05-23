@@ -24,6 +24,7 @@
     margin-right: 40px;
     position: relative;
     transition: all 250ms;
+    cursor: pointer;
 }
 
 .NavBar button:hover{
