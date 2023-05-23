@@ -94,19 +94,16 @@
 }
 
 .Password {
-  right: 40%;
   position: relative;
   margin-top: 1em;
 }
 
 .Email {
-  right: 45%;
   position: relative;
 }
 
 .ConfirmPassword {
-    right: 30%;
-    position: relative;
+      position: relative;
 }
 
 .toRegister {

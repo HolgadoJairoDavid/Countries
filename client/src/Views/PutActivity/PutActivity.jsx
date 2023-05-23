@@ -3,7 +3,11 @@ import React from "react";
 import style from "./putActivity.module.css";
 import validate from "./validate";
 import { useDispatch, useSelector } from "react-redux";
-import { putActivity, getCountriesByName, getAllCountries } from "../../Redux/actions";
+import {
+  putActivity,
+  getCountriesByName,
+  getAllCountries,
+} from "../../Redux/actions";
 import CountryCreateActivity from "../../Components/CountryCreateActivity/CountryCreateActivity";
 
 const PutActivity = (props) => {
@@ -35,7 +39,7 @@ const PutActivity = (props) => {
     event.preventDefault();
     if (!Object.keys(error).length) {
       dispatch(putActivity(id, state));
-      dispatch(getAllCountries())
+      dispatch(getAllCountries());
     }
   };
   const handleCountries = (event) => {
@@ -64,7 +68,7 @@ const PutActivity = (props) => {
 
   const countriesByActivity = allCountries.filter((country) =>
     state.countriesNames.includes(country.name)
-  ) ;
+  );
 
   const handleRemove = (event) => {
     event.preventDefault();
@@ -97,158 +101,185 @@ const PutActivity = (props) => {
   };
 
   return (
-    <div>
-      <form className={style.Form}>
-        <label htmlFor="name">Name: </label>
-        <input
-          value={state.name}
-          type="text"
-          name="name"
-          onChange={handleChange}
-        />
-        {error.name && <p>{error.name}</p>}
+    <div className={style.PutActivity}>
+      <form>
+        <div className={style.Form}>
+          <div className={style.Specifications}>
+            <div className={style.Name}>
+              <label htmlFor="name">Name </label>
+              <input
+                value={state.name}
+                type="text"
+                name="name"
+                onChange={handleChange}
+              />
+              {error.name && <p>{error.name}</p>}
+            </div>
 
-        <label htmlFor="difficulty">Difficulty: </label>
-        <select
-          value={state.difficulty}
-          name="difficulty"
-          onChange={handleChange}
-          defaultValue={state.difficulty}
-        >
-          <option selected disabled>
-            Select a difficulty
-          </option>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-        </select>
-        {error.difficulty && <p>{error.difficulty}</p>}
+            <div className={style.Difficulty}></div>
+            <div className={style.Difficulty}>
+              <label htmlFor="difficulty">Difficulty </label>
+              <div className={style.SliderValue}>
+                <span>{state.difficulty}</span>
+              </div>
+              <div className={style.Range}>
+                <div className={style.Field}>
+                  <div className={style.ValueLeftAndRight}>1</div>
 
-        <label htmlFor="duration">Duration: </label>
-        <input
-          value={state.duration}
-          type="number"
-          name="duration"
-          onChange={handleChange}
-        />
-        {error.duration && <p>{error.duration}</p>}
-
-        <label>Season: </label>
-        <div>
-          <div>
-            <input
-              type="checkbox"
-              name="season"
-              value="Summer"
-              onChange={handleSeasons}
-              checked={state.season && state.season.includes("Summer")}
-            />
-            <label >Summer</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="season"
-              value="Autumn"
-              onChange={handleSeasons}
-              checked={state.season && state.season.includes("Autumn")}
-            />
-            <label >Autumn</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="season"
-              value="Winter"
-              onChange={handleSeasons}
-              checked={state.season && state.season.includes("Winter")}
-            />
-            <label>Winter</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="season"
-              value="Spring"
-              onChange={handleSeasons}
-              checked={state.season && state.season.includes("Spring")}
-            />
-            <label>Spring</label>
-          </div>
-        </div>
-        {error.season && <p>{error.season}</p>}
-        <label htmlFor="countriesNames">Country: </label>
-        <input
-          type="search"
-          value={name}
-          onChange={handleCountries}
-          placeholder="Enter the name of a country"
-        />
-        {error.countriesNames && <p>{error.countriesNames}</p>}
-        <div>
-          {countriesByName &&
-            countriesByName.slice(0, 15).map((country, index) => {
-              return (
-                <div key={`${index}SearchCountries`}>
-                  <CountryCreateActivity
-                    key={country.id}
-                    id={country.id}
-                    name={country.name}
-                    image={country.image}
+                  <input
+                    onChange={handleChange}
+                    value={state.difficulty}
+                    type="range"
+                    min="1"
+                    max="5"
+                    name="difficulty"
                   />
-                  <button
-                    key={`${index}add`}
-                    value={country.name}
-                    onClick={handleClick}
-                  >
-                    +
-                  </button>
-                </div>
-              );
-            })}
-        </div>
 
-        <div>
-          {countriesByActivity &&
-            countriesByActivity.map((country, index) => {
-              return (
-                <div key={`${index}CountriesByActivity`}>
-                  <CountryCreateActivity
-                    key={country.id}
-                    id={country.id}
-                    name={country.name}
-                    image={country.image}
+                  <div className={style.ValueLeftAndRight}>5</div>
+                </div>
+              </div>
+              {error.difficulty && <p>{error.difficulty}</p>}
+            </div>
+
+            <div className={style.Duration}>
+              <label htmlFor="duration">Duration </label>
+              <input
+                value={state.duration}
+                type="number"
+                name="duration"
+                min="0.5"
+                max="120"
+                step="0.5"
+                onChange={handleChange}
+              />
+              {error.duration && <p>{error.duration}</p>}
+            </div>
+            <div className={style.Season}>
+              <label>Season </label>
+              <div className={style.Checkbox}>
+                <div className={style.Box}>
+                  <input
+                    type="checkbox"
+                    name="season"
+                    value="Summer"
+                    onChange={handleSeasons}
+                    checked={state.season && state.season.includes("Summer")}
                   />
-                  <button
-                    key={index}
-                    value={country.name}
-                    onClick={handleRemove}
-                  >
-                    -
-                  </button>
+                  <label>Summer</label>
                 </div>
-              );
-            })}
-        </div>
-        {error.countryName && <p>{error.countryName}</p>}
-
-        <label htmlFor="image">Image: </label>
-        <input
-          type="text"
-          value={state.image}
-          name="image"
-          onChange={handleChange}
-        />
-
-        {state.image && (
-          <div>
-            <p>Imagen cargada: </p>
-            <img src={state.image} alt="Imagen cargada" />
+                <div className={style.Box}>
+                  <input
+                    type="checkbox"
+                    name="season"
+                    value="Autumn"
+                    onChange={handleSeasons}
+                    checked={state.season && state.season.includes("Autumn")}
+                  />
+                  <label>Autumn</label>
+                </div>
+                <div className={style.Box}>
+                  <input
+                    type="checkbox"
+                    name="season"
+                    value="Winter"
+                    onChange={handleSeasons}
+                    checked={state.season && state.season.includes("Winter")}
+                  />
+                  <label>Winter</label>
+                </div>
+                <div className={style.Box}>
+                  <input
+                    type="checkbox"
+                    name="season"
+                    value="Spring"
+                    onChange={handleSeasons}
+                    checked={state.season && state.season.includes("Spring")}
+                  />
+                  <label>Spring</label>
+                </div>
+              </div>
+              {error.season && <p>{error.season}</p>}
+            </div>
           </div>
-        )}
-        <button onClick={handleSubmit}>Submit</button>
+
+          <div className={style.CountriesAndImage}>
+            <label htmlFor="countriesNames">Country: </label>
+            <input
+              type="search"
+              value={name}
+              onChange={handleCountries}
+              placeholder="Enter the name of a country"
+            />
+            {error.countriesNames && <p>{error.countriesNames}</p>}
+
+            <div className={style.CountriesSearchAndResults}>
+            <div className={style.Search}>
+              {countriesByName &&
+                countriesByName.slice(0, 15).map((country, index) => {
+                  return (
+                    <div key={`${index}SearchCountries`} className={style.countriesByActivity}>
+                      <CountryCreateActivity
+                        key={country.id}
+                        id={country.id}
+                        name={country.name}
+                        image={country.image}
+                      />
+                      <button
+                        key={`${index}add`}
+                        value={country.name}
+                        onClick={handleClick}
+                      >
+                        +
+                      </button>
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div className={style.CountriesAdd}>
+              {countriesByActivity &&
+                countriesByActivity.map((country, index) => {
+                  return (
+                    <div key={`${index}CountriesByActivity`} className={style.countriesByActivity}>
+                      <CountryCreateActivity
+                        key={country.id}
+                        id={country.id}
+                        name={country.name}
+                        image={country.image}
+                      />
+                      <button
+                        key={index}
+                        value={country.name}
+                        onClick={handleRemove}
+                      >
+                        -
+                      </button>
+                    </div>
+                  );
+                })}
+            </div>
+            </div>
+
+
+
+            <label htmlFor="image">Image </label>
+            <input
+              type="text"
+              value={state.image}
+              name="image"
+              onChange={handleChange}
+            />
+
+            {state.image && (
+              <div className={style.ImageAdd}>
+                <img src={state.image} alt="Imagen cargada" />
+              </div>
+            )}
+
+            
+          </div>
+        </div>
+        <button className={style.ButtonSubmit} onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );

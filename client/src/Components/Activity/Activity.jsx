@@ -26,35 +26,49 @@ const Activity = (props) => {
 
   return (
     <div className={style.Activity}>
+      <div className={style.ButtonReset}>
+          {!pathname.includes("detail") && (
+            <button onClick={handleDelete}>X</button>
+          )}
+        </div>
       <div className={style.Buttons}>
         <button>
-          <NavLink to={`/activities/${props.id}`} className={style.NavLink}>Update</NavLink>
+          <NavLink to={`/activities/${props.id}`} className={style.NavLink}>
+            Update
+          </NavLink>
         </button>
-        {!pathname.includes('detail') && <button onClick={handleDelete}>X</button>}
       </div>
       <div className={style.InfoAndImage}>
-      <div className={style.Info}>
-        <h1>{props.name}</h1>
-        <div className={style.Details}><p>Difficulty</p> <p>{props.difficulty}</p></div>
-        <div className={style.Details}><p>Duration</p> <p>{props.duration} Hs</p></div>
-        <div className={style.ContentSeasons}>
-        <p className={style.SeasonsTitle}>Seasons</p>
-        <div className={style.Seasons}>
-          <div>
-          {props.season &&
-            props.season.slice(0,2).map((value, index) => <p key={index}>{value}</p>)}
+        <div className={style.Info}>
+          <h1>{props.name}</h1>
+          <div className={style.Details}>
+            <p>Difficulty</p> <p>{props.difficulty}</p>
           </div>
-          <div>
-          {props.season &&
-            props.season.slice(2,4).map((value, index) => <p key={index}>{value}</p>)}
+          <div className={style.Details}>
+            <p>Duration</p> <p>{props.duration} Hs</p>
+          </div>
+          <div className={style.ContentSeasons}>
+            <p className={style.SeasonsTitle}>Seasons</p>
+            <div className={style.Seasons}>
+              <div>
+                {props.season &&
+                  props.season
+                    .slice(0, 2)
+                    .map((value, index) => <p key={index}>{value}</p>)}
+              </div>
+              <div>
+                {props.season &&
+                  props.season
+                    .slice(2, 4)
+                    .map((value, index) => <p key={index}>{value}</p>)}
+              </div>
+            </div>
           </div>
         </div>
+        <div className={style.Image}>
+          {" "}
+          <img src={props.image} alt={props.name} />
         </div>
-      </div>
-      <div className={style.Image}>
-        {" "}
-        <img src={props.image} alt={props.name} />
-      </div>
       </div>
     </div>
   );

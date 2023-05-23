@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import Activity from "../../Components/Activity/Activity";
+import style from "./activities.module.css"
 
 const Activities = (props) => {
   const allActivities = useSelector((state) => state.allActivities);
@@ -12,9 +13,11 @@ const Activities = (props) => {
     )
   }
   return (
-    <div>
+    <div className={style.Activities}>
+      <h1 className={style.Title}>Activities</h1>
+      <div className={style.Container}>
       {allActivities &&
-        allActivities.map((activity) => {
+        allActivities.sort((a,b) => a.name > b.name ? 1 : -1).map((activity) => {
           return (
             <Activity
               key={activity.id}
@@ -27,6 +30,7 @@ const Activities = (props) => {
             />
           );
         })}
+      </div>
     </div>
   );
 };
